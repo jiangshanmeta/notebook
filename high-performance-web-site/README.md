@@ -3,3 +3,4 @@
 * [减少HTTP请求](./make-fewer-http-request.md)
 * [使用内容分发网络](./use-a-content-delivery-network.md)
 * [添加Expires响应头](./add-an-expires-header.md)
+* [压缩组件](./gzip-components.md)
