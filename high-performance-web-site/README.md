@@ -4,3 +4,4 @@
 * [使用内容分发网络](./use-a-content-delivery-network.md)
 * [添加Expires响应头](./add-an-expires-header.md)
 * [压缩组件](./gzip-components.md)
+* [将样式表放在顶部](./put-stylesheets-at-the-top.md)
