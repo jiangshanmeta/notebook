@@ -5,3 +5,4 @@
 * [添加Expires响应头](./add-an-expires-header.md)
 * [压缩组件](./gzip-components.md)
 * [将样式表放在顶部](./put-stylesheets-at-the-top.md)
+* [将脚本放在底部](./put-scripts-at-the-bottom.md)
