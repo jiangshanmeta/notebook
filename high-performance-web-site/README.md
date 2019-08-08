@@ -8,3 +8,4 @@
 * [将脚本放在底部](./put-scripts-at-the-bottom.md)
 * [避免CSS表达式](./avoid-css-expressions.md)
 * [使用外部JavaScript和CSS](./make-javascript-and-css-external.md)
+* [减少DNS查找](./reduce-dns-lookups.md)
