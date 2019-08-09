@@ -9,3 +9,6 @@
 * [避免CSS表达式](./avoid-css-expressions.md)
 * [使用外部JavaScript和CSS](./make-javascript-and-css-external.md)
 * [减少DNS查找](./reduce-dns-lookups.md)
+* [精简JavaScript](./minify-javascript.md)
+* [避免重定向](./avoid-redirects.md)
+* [删除重复脚本](./remove-duplicate-scripts.md)
