@@ -12,3 +12,5 @@
 * [精简JavaScript](./minify-javascript.md)
 * [避免重定向](./avoid-redirects.md)
 * [删除重复脚本](./remove-duplicate-scripts.md)
+* [配置ETag](./configure-etags.md)
+* [使Ajax可缓存](./make-ajax-cacheable.md)
