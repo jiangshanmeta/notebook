@@ -5,3 +5,10 @@
 * [HTTP报文内的HTTP信息](./chapter3.md)
 * [返回结果的HTTP状态码](./chapter4.md)
 * [与HTTP协作的web服务器](./chapter5.md)
+* HTTP首部
+  * [HTTP首部字段分类](chapter6_type.md)
+  * [通用首部字段](chapter6_common.md)
+  * [请求首部字段](chapter6_request.md)
+  * [响应首部字段](chapter6_response.md)
+  * [实体首部字段](chapter6_entity.md)
+  * [其他首部字段](chapter6_other.md)
