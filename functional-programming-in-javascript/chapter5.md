@@ -28,3 +28,76 @@ class Wrapper{
 
 }
 ```
+
+## Maybe Monad 处理null
+
+```javascript
+class Maybe{
+    static just(a){
+        return new Just(a);
+    }
+
+    static nothing(){
+        return new Nothing();
+    }
+    // 空值用Nothing包裹 非空用Just包裹
+    static fromNullable(a){
+        return a !== null?this.just(a):this.nothing();
+    }
+
+    static of(a){
+        return this.just(a);
+    }
+
+    get isJust(){
+        return false;
+    }
+
+    get isNothing(){
+        return false;
+    }
+}
+
+class Just extends Maybe{
+    constructor(value){
+        super();
+        this._value = value;
+    }
+
+    get isJust(){
+        return true;
+    }
+
+    get value(){
+        return this._value;
+    }
+
+    map(f){
+        return Mayber.of(f(this._value))
+    }
+
+    getOrElse(){
+        return this._value;
+    }
+
+}
+
+class Nothing extends Maybe{
+    // 对Nothing做map 返回一个Nothing
+    map(f){
+        return this;
+    }
+
+    getOrElse(other){
+        return other;
+    }
+
+    get value(){
+        throw new TypeError("Can't extract value of nothing")
+    }
+
+    get isNothing(){
+        return true;
+    }
+}
+```
