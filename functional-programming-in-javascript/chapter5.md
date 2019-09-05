@@ -101,3 +101,64 @@ class Nothing extends Maybe{
     }
 }
 ```
+
+## Either Monad 处理异常
+
+```javascript
+class Either {
+    constructor(value){
+        this._value = value;
+    }
+
+    static left(a){
+        return new Left(a);
+    }
+
+    static Right(a){
+        return new Right(a);
+    }
+
+    static of(a){
+        return new Right(a);
+    }
+}
+
+// Left是对异常的包裹
+class Left extends Either{
+    map(){
+        return this;
+    }
+
+    get value(){
+        throw new TypeError("Can't extract the value of Left");
+    }
+
+    getOrElse(other){
+        return other
+    }
+
+    // orElse 方法仅将函数f应用到Left上，不应用到Right上
+    orElse(f){
+        return f(this._value)
+    }
+}
+// Right包含一个成功的值
+class Right extends Either{
+    map(f){
+        return Either.of(f(this._value))
+    }
+
+    get value(){
+        return this._value;
+    }
+
+    getOrElse(){
+        return this._value;
+    }
+
+    orElse(){
+        return this;
+    }
+
+}
+```
