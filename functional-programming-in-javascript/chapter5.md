@@ -162,3 +162,30 @@ class Right extends Either{
 
 }
 ```
+
+## IO Monad 处理IO
+
+```javascript
+class IO{
+    constructor(effect){
+        if(typeof effect !== 'function'){
+            throw 'IO Usage: function required';
+        }
+        this.effect = effect;
+    }
+
+    static from(fn){
+        return new IO(fn);
+    }
+    // 关键一步 和其他IO操作联合构成新的IO Monad
+    map(fn){
+        return new IO(()=>{
+            return fn(this.effect())
+        });
+    }
+    // 所有IO操作 一次完成
+    run(){
+        return this.effect();
+    }
+}
+```
