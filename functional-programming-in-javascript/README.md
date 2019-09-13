@@ -7,3 +7,4 @@
 * [针对复杂应用的设计模式](./chapter5.md)
 * [坚不可摧的代码](./chapter6.md)
 * [函数式优化](./chapter7.md)
+* [管理异步事件以及数据](./chapter8.md)
