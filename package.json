@@ -4,8 +4,10 @@
   "description": "notebook",
   "main": "index.js",
   "scripts": {
-    "docs:dev": "vuepress dev ./",
-    "docs:build": "vuepress build ./"
+    "dev": "vuepress dev ./",
+    "prebuild":"npm run gen",
+    "build": "vuepress build ./",
+    "gen":"node scripts/generate"
   },
   "repository": {
     "type": "git",
