@@ -19,4 +19,8 @@ module.exports = [
         title:'前端架构设计',
         path:'/front-end-architecture/'
     },
+    {
+        title:'web性能实战',
+        path:'/web-performance-in-action/'
+    }
 ]
