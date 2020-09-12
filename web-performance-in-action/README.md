@@ -132,3 +132,58 @@ picture元素和srcset属性所解决的问题很相似，都是提供一组图�
 ### 使用script的async属性
 
 该属性使得script在加载的时候不会阻塞渲染，同时脚本下载完成后不需要等待其他脚本下载完成，立即执行。
+
+## 基于service-worker和cacaheStorage缓存资源
+
+service-worker相当于是前端能控制的代理服务器，可以用来缓存资源。
+
+```javascript
+const cacheVersion = 'v1';
+// 要缓存的资源
+const cacheAssets = [];
+self.addEventListener("install",function(event){
+  // cacheStorage 缓存资源
+  event.waitUntil(caches.open(cacheVersion).then(function(cache){
+    return cache.addAll(cacheAssets)
+  }).then(function(){
+    // 跳过waiting阶段(因为可能有别的serviceworker在控制)，当前service-wroker直接控制页面
+    return self.skipWaiting();
+  }));
+});
+
+self.addEventListener("fetch",function(event){
+  // 缓存优先，无缓存时访问网络并缓存
+  event.responseWith(
+    caches.open(cacheVersion).then(function(cache){
+      return cahce.match(event.request).then(function(cacheResponse){
+        return cacheResponse || fetch(event.request).then(function(fetchResponse){
+          cache.put(event.request,fetchResponse.clone())
+          return fetchResponse;
+        })
+      })
+    })
+
+  )
+});
+```
+
+当我们更新版本时，需要把旧的缓存删除
+
+```javascript
+self.addEventListener("activate",function(event){
+  const whiteList = ["v2"];
+  event.waitUntil(
+    caches.keys().then(function(keyList){
+      return Promise.all([
+        ...keyList.map(function(key){
+          if(!whiteList.includes(key)){
+            return cahces.delete(key)
+          }
+          return Promise.resolve();
+        }),
+        self.clients.claim(),
+      ])
+    })
+  )
+});
+```
