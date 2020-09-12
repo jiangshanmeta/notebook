@@ -187,3 +187,23 @@ self.addEventListener("activate",function(event){
   )
 });
 ```
+
+## 使用资源提示
+
+### dns-prefetch preconnect
+
+```html
+<link rel="preconnect" href="https://github.com/jiangshanmeta">
+<link rel="dns-prefetch" href="https://github.com/jiangshanmeta">
+```
+
+这两个是针对跨域资源的优化，preconnect会建立连接 但是这个属性兼容性比较差，dns-prefetch只做dns解析，不建立连接，但是兼容性相对好点。
+
+### prefetch preload
+
+```html
+<link rel="preload" href="/fonts/font.woff" as="font">
+<link rel="prefetch" href="/uploads/images/pic.png">
+```
+
+preload用来指定页面加载后很快会被用到的资源，prefetch用来告诉浏览器在页面加载完成后，利用空闲时间提前获取用户未来可能会访问的内容。
