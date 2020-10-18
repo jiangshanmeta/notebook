@@ -22,5 +22,9 @@ module.exports = [
     {
         title:'web性能实战',
         path:'/web-performance-in-action/'
+    },
+    {
+        title:'深入解析 CSS',
+        path:'/css-in-depth/'
     }
 ]
