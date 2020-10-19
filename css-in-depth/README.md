@@ -3,3 +3,4 @@
 * [层叠、优先级和继承](./chapter-1.md)
 * [相对单位](./chapter-2.md)
 * [盒模型](./chapter-3.md)
+* [浮动](./chapter-4.md)
