@@ -4,3 +4,4 @@
 * [相对单位](./chapter-2.md)
 * [盒模型](./chapter-3.md)
 * [浮动](./chapter-4.md)
+* [flex](./chapter-5.md)
