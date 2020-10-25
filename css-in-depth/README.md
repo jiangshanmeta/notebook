@@ -7,3 +7,4 @@
 * [flex](./chapter-5.md)
 * [定位和层叠上下文](./chapter-7.md)
 * [响应式设计](./chapter-8.md)
+* [背景、阴影和混合模式](./chapter-11.md)
