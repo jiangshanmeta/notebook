@@ -5,6 +5,7 @@
 * [盒模型](./chapter-3.md)
 * [浮动](./chapter-4.md)
 * [flex](./chapter-5.md)
+* [网格布局](./chapter-6.md)
 * [定位和层叠上下文](./chapter-7.md)
 * [响应式设计](./chapter-8.md)
 * [背景、阴影和混合模式](./chapter-11.md)
@@ -12,3 +13,4 @@
 * [排版](./chapter-13.md)
 * [过渡](./chapter-14.md)
 * [变换](./chapter-15.md)
+* [动画](./chapter-16.md)
