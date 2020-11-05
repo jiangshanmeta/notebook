@@ -8,6 +8,7 @@
 * [网格布局](./chapter-6.md)
 * [定位和层叠上下文](./chapter-7.md)
 * [响应式设计](./chapter-8.md)
+* [模块化CSS](./chapter-9.md)
 * [背景、阴影和混合模式](./chapter-11.md)
 * [对比、颜色和间距](./chapter-12.md)
 * [排版](./chapter-13.md)
