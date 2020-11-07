@@ -9,9 +9,12 @@
 * [定位和层叠上下文](./chapter-7.md)
 * [响应式设计](./chapter-8.md)
 * [模块化CSS](./chapter-9.md)
+* [模式库](./chapter-10.md)
 * [背景、阴影和混合模式](./chapter-11.md)
 * [对比、颜色和间距](./chapter-12.md)
 * [排版](./chapter-13.md)
 * [过渡](./chapter-14.md)
 * [变换](./chapter-15.md)
 * [动画](./chapter-16.md)
+
+对我来说，这本书其实提供不了太多的知识层面的内容。第九章模块化CSS比较重要，提供了CSS模块化的方法论。
