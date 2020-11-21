@@ -26,5 +26,9 @@ module.exports = [
     {
         title:'深入解析 CSS',
         path:'/css-in-depth/'
+    },
+    {
+        title:'白帽子讲Web安全',
+        path:'/web-security/'
     }
 ]
