@@ -6,3 +6,4 @@
 * [跨站点请求伪造](./chapter-4.md)
 * [点击劫持](./chapter-5.md)
 * [HTML5 安全](./chapter-6.md)
+* [注入攻击](./chapter-7.md)
