@@ -8,3 +8,4 @@
 * [HTML5 安全](./chapter-6.md)
 * [注入攻击](./chapter-7.md)
 * [文件上传漏洞](./chapter-8.md)
+* [认证与会话管理](./chapter-9.md)
