@@ -30,5 +30,9 @@ module.exports = [
     {
         title:'白帽子讲Web安全',
         path:'/web-security/'
+    },
+    {
+        title:'Effective TypeScript',
+        path:'/effective-typescript/'
     }
 ]
