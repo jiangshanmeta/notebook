@@ -24,3 +24,107 @@ TypeScript提供了可以影响语言层面的配置，比如 noImplicitAny stri
 JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一定通过extends(继承)实现，只要结构满足依然视为子类型。
 
 ## 5. Limit Use of the any Type
+
+## 19. Avoid Cluttering Your Code with Inferable Types
+
+避免对简单的可推导类型进行标注，TypeScript可以自动推导,而且后期改动的时候要改的地方也少。
+
+常见的需要手动标注类型的场景：
+
+* 函数参数和返回值类型。(ts规则 noImplicitAny 参数需要标注，不能有隐式any； eslint规则 explicit-function-return-type 函数需要标明返回值类型 )
+* 对象字面量(抽出interface利于复用，还可以辅助检查拼写错误(新鲜对象字面量类型) )，空数组(默认是 any[])
+
+## 20. Use Different Variables for Different Types
+
+在JavaScript中可以把不同类型的值赋给同一个变量，这是一个非常坏的习惯。
+
+* 变量值改变，类型尽可能不变。
+* 不同类型的值应该赋给不同的变量。
+
+## 21. Understand Type Widening
+
+当使用一个常量初始化变量但是没有声明类型时，TS需要根据初始值决定类型，决定的类型通常会比常量类型要宽。比如```let a = 1```，TS认为a的类型时number，而初始值的类型是1。
+
+通常限制类型断定宽化有这么几种方式：
+
+* 使用const声明变量
+* 声明类型
+* 使用const断言
+
+## 22. Understand Type Narrowing
+
+通常类型收窄是我们主动编码的结果，有以下常见方式：
+
+* 条件判断if typeof in instanceof 相等判断 不相等判断
+* 可辨识联合类型 (通过 可辨识字段)
+* 自定义类型守卫 (返回类型 x is y)
+
+## 23. Create Objects All at Once
+
+定义一个对象时，尽可能一次性把属性声明完，这样对于TS类型推导有利，动态加属性 TS可能会报错。
+
+如果需要动态加属性，推荐使用spread operator：
+
+```typescript
+const a = {a:1}
+const b = {b:2}
+const ab = {...a,...b}
+```
+
+对于条件性添加属性，为了类型安全，可以在null或者{}上使用spread operator。
+
+```typescript
+const hasMiddle = Math.random()>0.5;
+const firstLast = {first:'First',last:'last'}
+const name = {...firstLast,...(hasMiddle?{middle:'M'}:{})}
+```
+
+name此时的类型为：
+
+```typescript
+type name = {
+    first:string;
+    last:string;
+} | {
+    first:string;
+    last:string;
+    middle:string;
+}
+```
+
+然而想要的是middle可选而不是联合类型
+
+```typescript
+// 处理可选类型
+function addOptional<T extends object,U extends object>(a:T,b:U | null):T & Partial<U>{
+    return {...a,...b}
+}
+const name = addOptional(firstLast,hasMiddle?{middle:'M'}:null)
+```
+
+## 24. Be Consistent in Your Use of Aliases
+
+```typescript
+interface Whatever {
+    str?:string;
+}
+
+const obj:Whatever = {
+    str:'meow'
+}
+// str 是 obj.str的别名
+const str = obj.str;
+if(obj.str){
+    // obj.str 现在是string类型
+    // str 是 string | undefined类型
+    // 这就是为什么当使用别名和类型收窄时 别名要一致
+}
+```
+
+## 25. Use async Functions Instead of Callbacks for Asynchronous Code
+
+## 26. Understand How Context Is Used in Type Inference
+
+类型推断和上下文有关。一般而言，TS推断变量的类型是根据变量被引入时，而不是使用时，通常伴随着之前的Type Widening现象。
+
+## 27. Use Functional Constructs and Libraries to Help Types Flow
