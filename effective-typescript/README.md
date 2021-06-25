@@ -1,14 +1,16 @@
 # [Effective TypeScript](https://book.douban.com/subject/34893998/)
 
-## 1. Understand the Relationship Between TypeScript and JavaScript
+## Getting to Know TypeScript
+
+### 1. Understand the Relationship Between TypeScript and JavaScript
 
 TypeScript 是 JavaScript 的超集
 
-## 2. Know Which TypeScript Options You're Using
+### 2. Know Which TypeScript Options You're Using
 
 TypeScript提供了可以影响语言层面的配置，比如 noImplicitAny strictNullChecks。显然要选择尽可能严格的配置。
 
-## 3. Understand That Code Generation Is Independent of Types
+### 3. Understand That Code Generation Is Independent of Types
 
 代码生成和类型检查是独立的。
 
@@ -19,13 +21,15 @@ TypeScript提供了可以影响语言层面的配置，比如 noImplicitAny stri
 * 不支持静态重载，只支持类型签名实现重载
 * TS类型不影响运行时性能
 
-## 4. Get Comfortable with Structural Typing
+### 4. Get Comfortable with Structural Typing
 
 JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一定通过extends(继承)实现，只要结构满足依然视为子类型。
 
-## 5. Limit Use of the any Type
+### 5. Limit Use of the any Type
 
-## 19. Avoid Cluttering Your Code with Inferable Types
+## Type Inference
+
+### 19. Avoid Cluttering Your Code with Inferable Types
 
 避免对简单的可推导类型进行标注，TypeScript可以自动推导,而且后期改动的时候要改的地方也少。
 
@@ -34,14 +38,14 @@ JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一�
 * 函数参数和返回值类型。(ts规则 noImplicitAny 参数需要标注，不能有隐式any； eslint规则 explicit-function-return-type 函数需要标明返回值类型 )
 * 对象字面量(抽出interface利于复用，还可以辅助检查拼写错误(新鲜对象字面量类型) )，空数组(默认是 any[])
 
-## 20. Use Different Variables for Different Types
+### 20. Use Different Variables for Different Types
 
 在JavaScript中可以把不同类型的值赋给同一个变量，这是一个非常坏的习惯。
 
 * 变量值改变，类型尽可能不变。
 * 不同类型的值应该赋给不同的变量。
 
-## 21. Understand Type Widening
+### 21. Understand Type Widening
 
 当使用一个常量初始化变量但是没有声明类型时，TS需要根据初始值决定类型，决定的类型通常会比常量类型要宽。比如```let a = 1```，TS认为a的类型时number，而初始值的类型是1。
 
@@ -51,7 +55,7 @@ JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一�
 * 声明类型
 * 使用const断言
 
-## 22. Understand Type Narrowing
+### 22. Understand Type Narrowing
 
 通常类型收窄是我们主动编码的结果，有以下常见方式：
 
@@ -59,7 +63,7 @@ JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一�
 * 可辨识联合类型 (通过 可辨识字段)
 * 自定义类型守卫 (返回类型 x is y)
 
-## 23. Create Objects All at Once
+### 23. Create Objects All at Once
 
 定义一个对象时，尽可能一次性把属性声明完，这样对于TS类型推导有利，动态加属性 TS可能会报错。
 
@@ -102,7 +106,7 @@ function addOptional<T extends object,U extends object>(a:T,b:U | null):T & Part
 const name = addOptional(firstLast,hasMiddle?{middle:'M'}:null)
 ```
 
-## 24. Be Consistent in Your Use of Aliases
+### 24. Be Consistent in Your Use of Aliases
 
 ```typescript
 interface Whatever {
@@ -121,10 +125,94 @@ if(obj.str){
 }
 ```
 
-## 25. Use async Functions Instead of Callbacks for Asynchronous Code
+### 25. Use async Functions Instead of Callbacks for Asynchronous Code
 
-## 26. Understand How Context Is Used in Type Inference
+### 26. Understand How Context Is Used in Type Inference
 
 类型推断和上下文有关。一般而言，TS推断变量的类型是根据变量被引入时，而不是使用时，通常伴随着之前的Type Widening现象。
 
-## 27. Use Functional Constructs and Libraries to Help Types Flow
+### 27. Use Functional Constructs and Libraries to Help Types Flow
+
+## Type Design
+
+### 28. Prefer Types That Always Represent Valid States
+
+避免使用一个类型多个变量建模状态，用可辨识的多个类型联合建模状态。
+
+### 29. Be Liberal in What You Accept and Strict in What You Produce
+
+对入参宽松(支持多种类型参数)，对出参严格(统一格式)
+
+### 30. Don't Repeat Type Infomation in Document
+
+### 31. Push Null Values to the Perimeter of Your Type
+
+* Avoid designs in which one value being null or not null is implicitly related to another value being null or not null
+* Push null values to the perimeter of your API by making larger objects either null or fully non-null. This will make code clearer both for human readers and for the type checker.
+* Consider creating a fully non-null class and constructing it when all values are available.
+
+### 32. Prefer Unions of Interfaces to Interfaces of Unions
+
+考虑下述类型定义
+
+```typescript
+interface Layer {
+  layout: FillLayout | LineLayout | PointLayout;
+  paint: FillPaint | LinePaint | PointPaint
+}
+```
+
+这样设计的类型很难关联layout和对应的paint,重构如下
+
+```typescript
+interface FillLayer {
+  type: 'fill',
+  layout: FillLayout,
+  paint: FillPaint
+}
+interface LineLayer {
+  type: 'line',
+  layout: LineLayout,
+  paint: LinePaint
+}
+interface PointLayer {
+  type: 'paint',
+  layout: PointLayout,
+  paint: PointPaint
+}
+
+type Layer = FillLayer | LineLayer |PointLayer
+```
+
+和28类似，都是使用可辨识联合类型，处理有关联的多个字段。
+
+### 33. Prefer More Precise Alternatives to String Types
+
+### 34. Prefer Incomplete Types to Inaccurate Types
+
+### 35. Generate Types from APIs and Specs, Not Data
+
+### 36. Name Types Using the Language of Your Problem Domain
+
+### 37. Consider "Brands" for Norminal Typing
+
+TS时结构化类型而不是名义类型，模拟名义类型可以参考[Simulating Nominal Types](https://react-typescript-cheatsheet.netlify.app/docs/basic/troubleshooting/types/#simulating-nominal-types)
+
+```typescript
+type OrderID = string & { readonly brand: unique symbol };
+type UserID = string & { readonly brand: unique symbol };
+type ID = OrderID | UserID;
+
+function OrderID(id: string) {
+  return id as OrderID;
+}
+function UserID(id: string) {
+  return id as UserID;
+}
+
+function queryForUser(id: UserID) {
+  // ...
+}
+queryForUser(OrderID("foobar")); // Error, Argument of type 'OrderID' is not assignable to parameter of type 'UserID'
+
+```
