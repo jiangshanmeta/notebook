@@ -27,6 +27,58 @@ JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一�
 
 ### 5. Limit Use of the any Type
 
+## TypeScript't Type System
+
+### 6. Use Your Editor to Interrogate and Explore the Type System
+
+### 7. Think of Types as Sets of Values
+
+把类型当做值的集合思考
+
+```typescript
+type A= 'A' // 单值集合 { 'A' }
+type B= 'B' // 单值集合 { 'B' }
+type AB = 'A' | 'B'  // 集合的并集 { 'A', 'B' }
+type twoInt =  2 | 4 | 5 ... // 无限元素集合 { 1,2,3,4}
+type threeInt = 3 | 6 | 9 // 无限集合
+type twoIntersectThreeInt = twoInt & threeInt // 无限集合的交集
+type twoUnionThreeInt = 2| 3 | 4 | 6 ... // 无限集合的并集
+keyof (A&B) = (keyof A) | (keyof B)
+keyof (A|B) = (keyof A) & (keyof B)
+```
+
+| Typescript术语 |       集合术语          |
+| :----------:  | :-------------------:  |
+| never         |  空集 |
+| literal type | 单值集合 |
+| value 可赋值给 T | value ∈ T |
+| T1 assignable to T2  | T1是T2的子集 |
+| T1 extends T2  | T1是T2的子集 |
+| T1丨T2 | T1和T2的并集 |
+| T1 & T2  | T1 和T2的交集 |
+| unknown | universal set |
+
+### 9. Prefer Type Declarations to Type Assertions
+
+### 10. Avoid Object Wrapper Types(String,Number,Boolean,Symbol,BigInt)
+
+### 12. Apply Types to Entire Function Expressions When Possible
+
+一个典型例子是React开发函数式组件，官方提供React.FC类型，开发时写函数表达式。
+
+### 13. Know the Differences Between type and interface
+
+inteface无法应用于union type | intersection type | conditional type | tuple
+
+```typescript
+type AorB = 'A' | 'B'
+type NamedVariable = (Input | Output) & { name: string}
+type IS<T,U> = T extends U?true:false
+type Pair = [number,number]
+```
+
+interface 可以augumented(合并),而type不可以
+
 ## Type Inference
 
 ### 19. Avoid Cluttering Your Code with Inferable Types
@@ -216,3 +268,47 @@ function queryForUser(id: UserID) {
 queryForUser(OrderID("foobar")); // Error, Argument of type 'OrderID' is not assignable to parameter of type 'UserID'
 
 ```
+
+## Working with any
+
+### 38. Use the Narrowest Possible Scope for any Types
+
+尽可能缩小any的影响范围：
+
+```typescript
+function f1(){
+  const x: any = expressionReturningFoo(); // 不建议,后续的x都是any了 如果f1返回x any会影响到其他函数
+  processBar(x)
+}
+
+function f2(){
+  const x = expressionReturningFoo();
+  processBar(x as any) // 建议，只有这里是any 后续x依然是Foo类型
+}
+
+```
+
+对于对象：
+
+```typescript
+const config1:Config = {
+  a:1,
+  b:2,
+  c:{
+    key:'1',
+    // 缺少foo属性
+  }
+} as any // 不推荐 因为只想不处理c属性，其他的属性还要类型校验
+
+const config2:Config = {
+  a:1,
+  b:2,
+  c:{
+    key:'1'
+  } as any // 推荐 any范围限于c
+}
+```
+
+### 39. Prefer More Precise Variants of any to Plain any
+
+虽说用any，也要有个下限。比如知道是数组，可是使用```any[]```；知道是对象，可以使用```{[x:string]:any}```；知道是函数，可以使用```(...args:any[])=>any```。

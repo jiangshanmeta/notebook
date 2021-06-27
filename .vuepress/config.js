@@ -6,4 +6,7 @@ module.exports = {
         displayAllHeaders: true ,
         sidebar:require('../scripts/sidebar'),
     },
+    head: [
+        ['link', { rel: 'icon', href: '/notebook/favicon.ico' }]
+    ]
 }
