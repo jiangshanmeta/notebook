@@ -312,3 +312,40 @@ const config2:Config = {
 ### 39. Prefer More Precise Variants of any to Plain any
 
 虽说用any，也要有个下限。比如知道是数组，可是使用```any[]```；知道是对象，可以使用```{[x:string]:any}```；知道是函数，可以使用```(...args:any[])=>any```。
+
+### 40. Hide Unsafe Type Assertions in Well-Typed Functions
+
+有时候不使用any想编写一个完全类型安全的实现并非易事，但是一般对于使用者 并不关心内部的实现是否安全，只关心对外暴露的签名是否安全，此时我们可以将函数签名和 函数实现相分离，以简化内部的类型实现。
+
+### 41. Understand Evolving any
+
+Typescript中的any并不是一成不变的，会随着用户的操作，Typescript会猜测更加合理的类型
+
+```typescript
+function range(start:number,limit:number){
+  const out = []; // any[]
+  for(let i=start;i<limit;i++){
+    out.push(i);
+  }
+  return out; // number[]
+}
+
+
+function range2(start:number,limit:number){
+  const out = [] // any[]
+  if(start === limit){
+    return out // any[]
+  }
+  for(let i=start;i<limit;i++){
+    out.push(i);
+  }
+  return out; // number[]
+}
+```
+
+然而最好还是必要的时候明确的声明
+
+### 42. Use unknown Instead of any for Values with an Unknown Type
+
+* The unknown type is a type-safe alternative to any. Use it when you know you have a value but do not know what its type is.
+* Use unknown to force your users to use a type assertion or do type checking.
