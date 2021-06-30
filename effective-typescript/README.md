@@ -349,3 +349,10 @@ function range2(start:number,limit:number){
 
 * The unknown type is a type-safe alternative to any. Use it when you know you have a value but do not know what its type is.
 * Use unknown to force your users to use a type assertion or do type checking.
+
+### 43.Prefer Type-Safe Approaches to Monkey Patching
+
+* Prefer structured code to storing data in globals or on the DOM
+* If you must store data on built-in types,use one of the type-safe approaches (augmentation or asserting a custom interface)
+
+### 44. Track Your Type Coverage to Prevent Regressions in Type Safety
