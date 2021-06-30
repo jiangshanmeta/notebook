@@ -356,3 +356,19 @@ function range2(start:number,limit:number){
 * If you must store data on built-in types,use one of the type-safe approaches (augmentation or asserting a custom interface)
 
 ### 44. Track Your Type Coverage to Prevent Regressions in Type Safety
+
+## Types Declarations and @types
+
+### 45. Put TypeScript and @types in devDependencies
+
+### 46. Understand the Three Versions Involved in Type Declarations
+
+一个库的类型声明和三个库的版本有关：库本身版本，@types版本，TypeScript版本，这三个版本不匹配可能会导致一些问题。
+
+用TS开发，库本身就导出类型，可以减少一个变量。
+
+### 47. Export All Types That Appear in Public APIs
+
+将公用API里使用的类型也一并导出，方便其他人使用。即使不导出，其他用户也可以使用ReturnType Parameters获取。
+
+### 48. Use TSDoc for API Comments
