@@ -384,3 +384,11 @@ function double<T extends string | number>(val:T):T extends string?string:number
   return val+val;
 }
 ```
+
+### 51. Mirror Types to Server Dependencies
+
+尽量避免用户对@types的依赖，不要强制web用户依赖NodeJS的types
+
+### 52. Be Aware of the Pitfalls of Testing Types
+
+然而一般写业务也不用测试类型啊🤔
