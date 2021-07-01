@@ -372,3 +372,15 @@ function range2(start:number,limit:number){
 将公用API里使用的类型也一并导出，方便其他人使用。即使不导出，其他用户也可以使用ReturnType Parameters获取。
 
 ### 48. Use TSDoc for API Comments
+
+### 49. Provide a Type for this in Callbacks
+
+### 50. Prefer Conditional Types to Overloaded Declarations
+
+下面的例子，用条件类型比用函数重载更简介(我也不喜欢用函数重载)
+
+```typescript
+function double<T extends string | number>(val:T):T extends string?string:number{
+  return val+val;
+}
+```
