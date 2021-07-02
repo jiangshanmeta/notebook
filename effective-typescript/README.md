@@ -79,6 +79,8 @@ type Pair = [number,number]
 
 interface 可以augumented(合并),而type不可以
 
+### 14. Use Type Operations and Generics to Avoid Repeating Yourself
+
 ## Type Inference
 
 ### 19. Avoid Cluttering Your Code with Inferable Types
@@ -392,3 +394,5 @@ function double<T extends string | number>(val:T):T extends string?string:number
 ### 52. Be Aware of the Pitfalls of Testing Types
 
 然而一般写业务也不用测试类型啊🤔
+
+## Writing and Running Your Code
