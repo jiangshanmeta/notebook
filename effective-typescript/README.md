@@ -451,3 +451,15 @@ TS class的private protected 修饰符本身只是类型层面的，不存在于
 private field是ES提出的私有字段解决方案(然而#语法好丑)
 
 ### 57. Use Source Maps to Debug TypeScript
+
+## Migrating to TypeScript
+
+### 58. Write Modern JavaScript
+
+### 59. Use @ts-check and JSDoc to Experiment with TypeScript
+
+### 60. Use allowJs to Mix TypeScript and JavaScript
+
+### 61. Convert Module By Module Up Your Depency Graph
+
+### 62. Dont`t Consider Migration Complete Until You Enable noImplicitAny
