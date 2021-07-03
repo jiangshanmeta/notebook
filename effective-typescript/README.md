@@ -81,6 +81,32 @@ interface 可以augumented(合并),而type不可以
 
 ### 14. Use Type Operations and Generics to Avoid Repeating Yourself
 
+### 15. Use Index Signatures for Dynamic Data
+
+一般无法提前约定，只能在runtime获取的属性，采用索引签名进行建模。其他情况能用更精准类型就用更精准类型。
+
+### 16. Prefer Arrays, Tuples, and ArrayLike to number Index Signatures
+
+数组实际上是对象，其keys也是string而非number，Typescript里使用number index signature是为了进行更多的类型检查 即使如下代码x[0]和x[‘0’]的行为在运行时完全一致，但是只有x[0]才能正确的推倒出类型。
+
+```typescript
+let a : string[] = []
+let x = a[0] // x类型为string
+let y = a['0'] // 但是y类型为any
+```
+
+一般也很少用number index signatures，用Array或者Tuple
+
+### 17. Use readonly to Avoid Errors Associated with Mutation
+
+* If your function does not modify its parameters then declare them readonly.This makes its contract clearer and prevents inadvertent mutations in its implementation.
+* Use readonly to prevent errors with mutation and to find the places in your code where mutations occur.
+
+### 18. Use Mapped Types to keep Values in Sync
+
+* Use mapped types to keep related values and types synchronized.
+* Consider using mapped types to force choices when adding new properties to an interface.
+
 ## Type Inference
 
 ### 19. Avoid Cluttering Your Code with Inferable Types
@@ -396,3 +422,32 @@ function double<T extends string | number>(val:T):T extends string?string:number
 然而一般写业务也不用测试类型啊🤔
 
 ## Writing and Running Your Code
+
+### 53. Prefer ECMAScript Features to TypeScript Features
+
+优先考虑使用ES特性而不是TS独有特性，把TS定位在Type层面
+
+* Enums 实际上枚举用的不多，一般是用字面量的联合类型替代
+* Parameter Properties 给类constructor的参数提供修饰符 这些参数会自动挂载到同名属性上。这个feature其实有点鸡肋，而且现在class语法本身用的就不多了
+* Namespace and Triple-Slash Imports 这两个是ES没提出模块方案前的替代品，没有使用意义了
+* Decorators 装饰器的最大问题其实是他还不稳定
+
+### 54. Know How to Iterate Over Objects
+
+使用for k in obj语法遍历对象，k的类型被放宽到string，这是因为TS是结构化类型，对于某个可赋值给某个类型的变量，可能会有额外属性，所以k要放宽。
+
+Object.entries 是一个可行的替代，然而类型还是有问题。。。
+
+### 55. Understand the DOM hierarchy
+
+Know the dofferences between Node,Element,HTMLElement,and EventTarget as well as those between Event and MouseEvent.
+
+Either use a specific enough type for DOM elements and Events in your code or give TypeScript the context to infer it.
+
+### 56. Dont`t Rely on Private to Hide Infomation
+
+TS class的private protected 修饰符本身只是类型层面的，不存在于运行时，显然标记为私有的字段依然可以在运行时从外部访问。
+
+private field是ES提出的私有字段解决方案(然而#语法好丑)
+
+### 57. Use Source Maps to Debug TypeScript
