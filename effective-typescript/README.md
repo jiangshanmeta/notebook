@@ -58,9 +58,37 @@ keyof (A|B) = (keyof A) & (keyof B)
 | T1 & T2  | T1 和T2的交集 |
 | unknown | universal set |
 
+### 8. Know How to Tell Whether a Symbol Is in the Type Space or Value Space
+
+TS中一个符号可以属于Type Space或者Value Space，也可以同时处于Type Space和Value Space
+
+class和enum同时存在于Value Space和Type Space。对于class，既可以作为类型，也可以作为构造函数。enum本身就代表了类型，其编译后对应枚举对象(不用const修饰的情况下)
+
 ### 9. Prefer Type Declarations to Type Assertions
 
 ### 10. Avoid Object Wrapper Types(String,Number,Boolean,Symbol,BigInt)
+
+### 11. Recognize the Limits of Excess Property Checking
+
+When you assign an object literal to a variable or pass it as an argument to a function,it undergoes excess property checking.
+
+TS会根据这个对象字面量生成一个新鲜对象字面量类型(Fresh Object Literal Type),与变量类型进行比较。
+
+因为是新鲜对象字面量类型，所以可以通过一个中间变量绕过去
+
+```typescript
+interface Point {
+  x: number;
+  y: number;
+}
+// 中间变量
+const tmp = {
+  x:1,
+  y:2,
+  z:3 
+}
+const point:Point= tmp; // 不报错
+```
 
 ### 12. Apply Types to Entire Function Expressions When Possible
 
@@ -80,6 +108,8 @@ type Pair = [number,number]
 interface 可以augumented(合并),而type不可以
 
 ### 14. Use Type Operations and Generics to Avoid Repeating Yourself
+
+DRY原则的类型版本。通过extends/intersection type/uniton type/ keyof / typeof / mapped type / generic type 等操作减少重复
 
 ### 15. Use Index Signatures for Dynamic Data
 
