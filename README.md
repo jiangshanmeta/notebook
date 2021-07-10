@@ -23,3 +23,6 @@
 * [前端架构设计](./front-end-architecture/)
 * [web性能实战](./web-performance-in-action/)
 * [深入解析 CSS](./css-in-depth/)
+* [白帽子讲Web安全](./web-security/)
+* [Effective TypeScript](./effective-typescript/)
+* [Node.js硬实战：115个核心技巧](./nodejs-in-practice/)

@@ -34,5 +34,9 @@ module.exports = [
     {
         title:'Effective TypeScript',
         path:'/effective-typescript/'
+    },
+    {
+        title:'Node.js硬实战：115个核心技巧',
+        path:'/nodejs-in-practice/'
     }
 ]
