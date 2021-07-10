@@ -2,3 +2,4 @@
 
 [入门](./chapert1)
 [全局变量: Node环境](./chapter2)
+[Buffers: 使用比特 字节以及编码](./chapter3)
