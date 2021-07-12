@@ -4,3 +4,4 @@
 [全局变量: Node环境](./chapter2)
 [Buffers: 使用比特 字节以及编码](./chapter3)
 [Events: 玩转EventEmitter](./chapter4)
+[流: 最强大和最容易误解的功能](./chapter5)
