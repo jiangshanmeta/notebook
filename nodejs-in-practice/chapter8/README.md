@@ -126,3 +126,13 @@ process.on('message',(msg)=>{
 });
 
 ```
+
+### 技巧62 运行作业
+
+进程池
+
+## 同步运行
+
+### 技巧63 同步子进程
+
+希望同步执行一些命令，可以使用execFileSync spawnSync execSync
