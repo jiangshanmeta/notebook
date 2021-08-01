@@ -9,3 +9,4 @@
 [网络：Node真正的 Hello World](./chapter7)
 [子进程：利用Node整合外部应用程序](./chapter8)
 [网络: 构建精简的网络应用](./chapter9)
+[调试: 用于发现和解决问题](./chapter11)
