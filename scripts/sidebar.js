@@ -38,5 +38,9 @@ module.exports = [
     {
         title:'Node.js硬实战：115个核心技巧',
         path:'/nodejs-in-practice/'
+    },
+    {
+        title:'精通模块化JavaScript',
+        path:'mastering-modular-javascript',
     }
 ]
