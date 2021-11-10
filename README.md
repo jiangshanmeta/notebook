@@ -26,3 +26,4 @@
 * [白帽子讲Web安全](./web-security/)
 * [Effective TypeScript](./effective-typescript/)
 * [Node.js硬实战：115个核心技巧](./nodejs-in-practice/)
+* [精通模块化JavaScript](./mastering-modular-javascript/)

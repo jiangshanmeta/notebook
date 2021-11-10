@@ -41,6 +41,7 @@ module.exports = [
     },
     {
         title:'精通模块化JavaScript',
-        path:'mastering-modular-javascript',
-    }
+        path:'/mastering-modular-javascript/',
+    },
+
 ]
