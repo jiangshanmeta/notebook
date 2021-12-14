@@ -43,5 +43,8 @@ module.exports = [
         title:'精通模块化JavaScript',
         path:'/mastering-modular-javascript/',
     },
-
+    {
+        title:'SVG精髓',
+        path:'/svg-essentials/',
+    },
 ]
