@@ -27,3 +27,4 @@
 * [Effective TypeScript](./effective-typescript/)
 * [Node.js硬实战：115个核心技巧](./nodejs-in-practice/)
 * [精通模块化JavaScript](./mastering-modular-javascript/)
+* [SVG精髓](./svg-essentials/)
