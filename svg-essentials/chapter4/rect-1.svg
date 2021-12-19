@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+    <rect
+        x="100"
+        y="100"
+        width="300"
+        height="300"
+        fill="green"
+        fill-opacity="0.5"
+        stroke="red"
+        stroke-width="10"
+        stroke-dasharray="20 10"
+        stroke-opacity="0.6"
+        rx="100"
+        ry="150"
+    />
+</svg>

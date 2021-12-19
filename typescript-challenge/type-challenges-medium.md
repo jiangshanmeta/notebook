@@ -410,6 +410,26 @@ type FlattenDepth<T extends any[], C extends number = 1, U extends any[] = []> =
   : T;
 ```
 
+## 3326・BEM style string
+
+```typescript
+type BEM<B extends string, E extends string[], M extends string[]> = `${B}${E['length'] extends 0? '':`__${E[number]}`}${M['length'] extends 0? '':`--${M[number]}`}`
+```
+
+## 3376・InorderTraversal 🤓
+
+```typescript
+interface TreeNode {
+  val: number;
+  left: TreeNode | null;
+  right: TreeNode | null;
+}
+type InorderTraversal<T extends TreeNode | null, U extends TreeNode = NonNullable<T>> = 
+  T extends null?
+    []
+    :[...InorderTraversal<U['left']>,U['val'],...InorderTraversal<U['right']>]
+```
+
 ## 4179・Flip
 
 ```typescript
@@ -429,6 +449,26 @@ type Fibonacci<T extends number,C extends any[] = [1,1,1],A extends any[] = [1],
       C['length'] extends T?
         [...A,...B]['length']
         :Fibonacci<T,[1,...C],B,[...A,...B]>
+```
+
+## 4260 AllCombinations
+
+```typescript
+type Combination<
+  S extends string,
+  U extends string='',
+  K = S
+> = 
+[S] extends [never]?
+  U: 
+  K extends S? 
+    Combination<Exclude<S,K>,U | `${U}${K}`>
+    :U
+
+type String2Union<S extends string,R extends string = never> = S extends `${infer F}${infer L}`? String2Union<L,R | F>:R
+
+
+type AllCombinations<S extends string> = Combination<String2Union<S>>
 ```
 
 ## 4425・Greater Than
@@ -518,4 +558,47 @@ type Fill<
 type Separator = ' ' | '\n' | '\t';
 
 type TrimRight<S extends string> = S extends `${infer R}${Separator}`? TrimRight<R>:S;
+```
+
+## 5117・Without
+
+```typescript
+type Includes<
+  T extends any[],
+  U
+> = 
+T extends [infer F,...infer R]? 
+  F extends U? 
+    true:Includes<R,U>
+  :false
+
+type WithoutMulti<
+  T extends any[],
+  U extends any[],
+  R extends any[] = []
+> = 
+T extends [infer F,...infer L]?
+  Includes<U,F> extends true? WithoutMulti<L,U,R>:WithoutMulti<L,U,[...R,F]>
+  : R
+
+type Without<T extends any[], U extends (number | number[] )> = U extends number[]? WithoutMulti<T,U>:WithoutMulti<T,[U]>
+```
+
+## 5140・Trunc
+
+```typescript
+type Trunc<T extends string | number> = `${T}` extends `${infer F}.${infer R}`? F: `${T}`
+```
+
+## 5153・IndexOf
+
+```typescript
+type IndexOf<
+  T, 
+  U,
+  L extends any[] = []
+> = 
+  T extends [infer F,...infer R]?
+    U extends F? L['length']:IndexOf<R,U,[1,...L]>
+  : -1
 ```
