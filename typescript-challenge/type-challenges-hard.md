@@ -151,6 +151,22 @@ type LengthOfString<S extends string,C extends number[] = []> = S extends `${inf
     :C['length']
 ```
 
+## 847・String Join
+
+```typescript
+type Join<
+  T extends any[], 
+  U extends string | number,
+  R extends string = ''
+> = 
+  T extends [infer F,...infer L]?
+    L['length'] extends 0?
+      `${R extends ''?'':`${R}${U}`}${F&string}`
+      :Join<L,U,`${R extends ''?'':`${R}${U}`}${F&string}`>
+  :R
+declare function join<U extends string>(delimiter: U): <T extends string[]>(...parts: T) => Join<T,U>;
+```
+
 ## 956・DeepPick
 
 ```typescript

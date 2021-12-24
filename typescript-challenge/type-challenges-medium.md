@@ -451,7 +451,7 @@ type Fibonacci<T extends number,C extends any[] = [1,1,1],A extends any[] = [1],
         :Fibonacci<T,[1,...C],B,[...A,...B]>
 ```
 
-## 4260 AllCombinations
+## 4260・AllCombinations
 
 ```typescript
 type Combination<
@@ -601,4 +601,25 @@ type IndexOf<
   T extends [infer F,...infer R]?
     U extends F? L['length']:IndexOf<R,U,[1,...L]>
   : -1
+```
+
+## 5310・Join
+
+```typescript
+type Join<
+  T extends any[], 
+  U extends string | number,
+  R extends string = ''
+> = 
+  T extends [infer F,...infer L]?
+    L['length'] extends 0?
+      `${R extends ''?'':`${R}${U}`}${F&string}`
+      :Join<L,U,`${R extends ''?'':`${R}${U}`}${F&string}`>
+  :R
+```
+
+## 5317・LastIndexOf
+
+```typescript
+type LastIndexOf<T extends any[], U> = T extends [...infer I,infer L]? L extends U?I['length']: LastIndexOf<I,U> : -1;
 ```

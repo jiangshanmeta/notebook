@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev ./",
-    "prebuild":"npm run gen",
+    "prebuild": "npm run gen",
     "build": "vuepress build ./",
-    "gen":"node scripts/generate"
+    "gen": "node scripts/generate"
   },
   "repository": {
     "type": "git",
