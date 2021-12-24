@@ -6,6 +6,6 @@
 * [leetcode题解](https://github.com/jiangshanmeta/meta)
 * [lintcode题解](https://github.com/jiangshanmeta/lintcode)
 * [剑指offer题解](https://github.com/jiangshanmeta/coding-interviews)
-## notebooks
-
 * [typescript-challenge](./typescript-challenge)
+
+## notebooks

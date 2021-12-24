@@ -6,10 +6,11 @@
 * [leetcode题解](https://github.com/jiangshanmeta/meta)
 * [lintcode题解](https://github.com/jiangshanmeta/lintcode)
 * [剑指offer题解](https://github.com/jiangshanmeta/coding-interviews)
-* [LeetCode笔记本](https://github.com/jiangshanmeta/leetcode-notebook)
+
 ## notebooks
 
 * [typescript-challenge](./typescript-challenge)
+
 * [高性能网站建设指南](./high-performance-web-site/)
 * [图解HTTP](./illustration-HTTP/)
 * [JavaScript函数式编程指南](./functional-programming-in-javascript/)
