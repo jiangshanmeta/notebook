@@ -7,3 +7,4 @@
 * [文档结构](./chapter5)
 * [坐标系统变换](./chapter6)
 * [路径](./chapter7)
+* [图案和渐变](./chapter8)

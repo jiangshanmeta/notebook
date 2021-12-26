@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <pattern 
+            id="tile" 
+            patternUnits="objectBoundingBox" 
+            patternContentUnits="objectBoundingBox"
+            x="0"
+            y="0"
+            width="0.2"
+            height="0.2"
+        >
+            <path
+                d="M 0 0 Q 0.05 0.20 0.10 0.10 T 0.20 0.20"
+                style="stroke:black;fill:none;stroke-width:0.01"
+            />
+            <path
+                d="M 0 0 h 0.20 v 0.20 h -0.20 z"
+                style="stroke:gray;fill:none;stroke-width:0.01"
+            />
+        </pattern>
+    </defs>
+
+    <g transform="translate(20,20)">
+        <rect
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            style="stroke:black;fill:url(#tile)"
+        />
+    </g>
+
+    <g transform="translate(135,20)">
+        <rect
+            x="0"
+            y="0"
+            width="70"
+            height="80"
+            style="fill:url(#tile);stroke:black;"
+        />
+    </g>
+
+    <g transform="translate(220,20)">
+        <rect
+            x="0"
+            y="0"
+            width="150"
+            height="130"
+            style="fill:url(#tile);stroke:black;"
+        />
+    </g>
+
+</svg>
