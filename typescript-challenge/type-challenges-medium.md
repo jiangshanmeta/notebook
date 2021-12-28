@@ -623,3 +623,9 @@ type Join<
 ```typescript
 type LastIndexOf<T extends any[], U> = T extends [...infer I,infer L]? L extends U?I['length']: LastIndexOf<I,U> : -1;
 ```
+
+## 5360・Unique
+
+```typescript
+type Unique<T extends any[],R extends any[] = []> = T extends [infer F,...infer L]? Unique<L,F extends R[number]? R:[...R,F] >:R
+```

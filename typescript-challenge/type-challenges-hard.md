@@ -276,3 +276,11 @@ type IsIsPalindromeArray<T extends any[]> = T extends [infer F,...infer M,infer 
 
 type IsPalindrome<T extends string | number> = IsIsPalindromeArray<StringToTuple<`${T}`>>
 ```
+
+## 5423・Intersection
+
+```typescript
+type ToUnion<T> = T extends any[]? T[number]:T;
+
+type Intersection<T extends any[],R = ToUnion<T[0]>> = T extends [infer F,...infer L]? Intersection<L,R & ToUnion<F>>:R
+```
