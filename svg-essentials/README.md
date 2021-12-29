@@ -8,3 +8,4 @@
 * [坐标系统变换](./chapter6)
 * [路径](./chapter7)
 * [图案和渐变](./chapter8)
+* [文本](./chapter9)
