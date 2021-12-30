@@ -9,3 +9,4 @@
 * [路径](./chapter7)
 * [图案和渐变](./chapter8)
 * [文本](./chapter9)
+* [裁剪和蒙版](./chapter10)
