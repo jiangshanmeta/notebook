@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg 
+    width="200" 
+    height="200" 
+    xmlns="http://www.w3.org/2000/svg"  
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+    <g transform="translate(100,60)">
+        <rect
+            x="-10"
+            y="-10"
+            width="20"
+            height="20"
+            style="fill:#ff9;stroke:black;"
+        >
+            <animateTransform
+                attributeType="XML"
+                attributeName="transform"
+                type="scale"
+                from="1"
+                to="4 2"
+                begin="0s"
+                dur="4s"
+                fill="freeze"
+            />
+        </rect>
+    </g>
+</svg>
