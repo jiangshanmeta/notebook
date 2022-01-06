@@ -12,3 +12,4 @@
 * [裁剪和蒙版](./chapter10)
 * [滤镜](./chapter11)
 * [SVG动画](./chapter12)
+* [添加交互](./chapter13)
