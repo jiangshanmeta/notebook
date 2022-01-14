@@ -629,3 +629,11 @@ type LastIndexOf<T extends any[], U> = T extends [...infer I,infer L]? L extends
 ```typescript
 type Unique<T extends any[],R extends any[] = []> = T extends [infer F,...infer L]? Unique<L,F extends R[number]? R:[...R,F] >:R
 ```
+
+## 5821・MapTypes
+
+```typescript
+type MapTypes<T, R extends {mapFrom:any,mapTo:any},U extends {mapFrom:any,mapTo:any} = R> = {
+  [K in keyof T]:U extends R? (T[K] extends R['mapFrom']?  (T[K] extends U['mapFrom']?U['mapTo']:never ) :T[K]   ):never
+}
+```
