@@ -284,3 +284,15 @@ type ToUnion<T> = T extends any[]? T[number]:T;
 
 type Intersection<T extends any[],R = ToUnion<T[0]>> = T extends [infer F,...infer L]? Intersection<L,R & ToUnion<F>>:R
 ```
+
+## 6141・Binary to Decimal
+
+```typescript
+type BinaryToDecimal<
+  S extends string,
+  R extends any[] = []
+> = 
+  S extends `${infer F}${infer L}`?
+    F extends '0'? BinaryToDecimal<L,[...R,...R]>:BinaryToDecimal<L,[...R,...R,1]>
+    :R['length']
+```
