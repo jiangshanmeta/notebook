@@ -255,6 +255,8 @@ type IsRequiredKey<T, K extends keyof T> = (K extends keyof T?
 
 ## 2949・ObjectFromEntries
 
+解法1:
+
 ```typescript
 type Copy<T> = {
   [K in keyof T]:T[K]
@@ -263,6 +265,14 @@ type Copy<T> = {
 type ObjectFromEntries<T extends [string,any]> = Copy<(T extends any? (arg:{
   [K in T[0]]:T[1]
 })=>void:never) extends (arg:infer U)=>void ?U:never>;
+```
+
+解法2:
+
+```typescript
+type ObjectFromEntries<T extends [string,any]> = {
+  [K in T as K[0]]:K[1]
+}
 ```
 
 ## 4037・IsPalindrome
