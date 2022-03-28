@@ -637,3 +637,24 @@ type MapTypes<T, R extends {mapFrom:any,mapTo:any},U extends {mapFrom:any,mapTo:
   [K in keyof T]:U extends R? (T[K] extends R['mapFrom']?  (T[K] extends U['mapFrom']?U['mapTo']:never ) :T[K]   ):never
 }
 ```
+
+## 7258・ObjectKeyPaths
+
+```typescript
+type GenNode<K extends string | number,IsRoot extends boolean> = IsRoot extends true? `${K}`: `.${K}` | (K extends number? `[${K}]` | `.[${K}]`:never)
+
+type ObjectKeyPaths<
+  T extends object,
+  IsRoot extends boolean = true,
+  K extends keyof T = keyof T
+> = 
+K extends string | number ?
+  GenNode<K,IsRoot> | (T[K] extends object? `${GenNode<K,IsRoot>}${ObjectKeyPaths<T[K],false>}`:never)
+  :never;
+```
+
+## 7544・Construct Tuple
+
+```typescript
+type ConstructTuple<L extends number,R extends unknown[]= []> = R['length'] extends L? R: ConstructTuple<L,[...R,unknown]>
+```
