@@ -658,3 +658,35 @@ K extends string | number ?
 ```typescript
 type ConstructTuple<L extends number,R extends unknown[]= []> = R['length'] extends L? R: ConstructTuple<L,[...R,unknown]>
 ```
+
+## 8767・Combination
+
+```typescript
+type Helper<T extends any[],Suffix extends any[] = []> =  T extends [infer F,...infer R]? Helper<R ,Suffix | [F,...Suffix] >: Suffix
+
+type Join<
+  T extends any[],
+  Prefix extends string = ''
+> = 
+T extends [infer F,...infer R]?
+  Join<R,`${Prefix}${Prefix extends ''?'':' '}${F&string}`>
+  : Prefix;
+type Combination<T extends any[],Suffix extends any[] = []> = Join<Filter<Helper<T>,T['length'] >> | Join<T>
+
+type Filter<
+  T extends any[],L 
+  extends number,
+  U extends any[] = T
+> = 
+U extends T? 
+  U['length'] extends L | 0? 
+  never
+  :U
+  :never
+```
+
+## 8987・Subsequence
+
+```typescript
+type Subsequence<T extends any[],Prefix extends any[] = []> = T extends [infer F,...infer R]? Subsequence<R,Prefix | [...Prefix,F]>:Prefix
+```
