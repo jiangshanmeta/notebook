@@ -161,16 +161,6 @@ type Merge<F, S> = {
 }
 ```
 
-## 610・CamelCase
-
-```typescript
-type CamelCase<S extends string> = S extends `${infer F}-${infer T}${infer R}`?
-  T extends '-'?
-    `${F}-${CamelCase<`${T}${R}`>}`
-    :
-    `${F}${T extends Uppercase<T>?`-${T}`:Uppercase<T>  }${CamelCase<R>}`:S;
-```
-
 ## 612・KebabCase
 
 ```typescript
@@ -638,25 +628,26 @@ type MapTypes<T, R extends {mapFrom:any,mapTo:any},U extends {mapFrom:any,mapTo:
 }
 ```
 
-## 7258・ObjectKeyPaths
-
-```typescript
-type GenNode<K extends string | number,IsRoot extends boolean> = IsRoot extends true? `${K}`: `.${K}` | (K extends number? `[${K}]` | `.[${K}]`:never)
-
-type ObjectKeyPaths<
-  T extends object,
-  IsRoot extends boolean = true,
-  K extends keyof T = keyof T
-> = 
-K extends string | number ?
-  GenNode<K,IsRoot> | (T[K] extends object? `${GenNode<K,IsRoot>}${ObjectKeyPaths<T[K],false>}`:never)
-  :never;
-```
-
 ## 7544・Construct Tuple
 
 ```typescript
 type ConstructTuple<L extends number,R extends unknown[]= []> = R['length'] extends L? R: ConstructTuple<L,[...R,unknown]>
+```
+
+## 8640・NumberRange
+
+```typescript
+type MakeArrayByLength<L extends number,R extends any[] = []> = R['length'] extends L? R :MakeArrayByLength<L,[...R,0]>
+
+type NumberRange<
+  L extends number, 
+  H extends number,
+  A extends any[] = MakeArrayByLength<L>,
+  R extends number = never
+> = 
+A['length'] extends H?
+  R | A['length']
+  : NumberRange<L,H,[...A,0],R | A['length']>
 ```
 
 ## 8767・Combination

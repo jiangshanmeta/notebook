@@ -321,3 +321,56 @@ K extends string | number ?
   GenNode<K,IsRoot> | (T[K] extends object? `${GenNode<K,IsRoot>}${ObjectKeyPaths<T[K],false>}`:never)
   :never;
 ```
+
+## 9155・ValidDate
+
+```typescript
+type one2nine = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+type zero2nine = '0' | one2nine;
+
+type thirty = `0${one2nine}` | `1${zero2nine}` | `2${zero2nine}` | '30'
+type thirtyone = thirty | '31'
+type twentyeight = Exclude<thirty,'30' | '29'>
+
+type DateMap = {
+  '01':thirtyone;
+  '02':twentyeight;
+  '03':thirtyone;
+  '04':thirty;
+  '05':thirtyone;
+  '06':thirty;
+  '07':thirtyone;
+  '08':thirtyone;
+  '09':thirty;
+  '10':thirtyone;
+  '11':thirty;
+  '12':thirtyone;
+}
+
+type ValidDate<
+  T extends string
+> = 
+T extends `${infer F}${infer S}${infer D}`?
+  `${F}${S}` extends keyof DateMap?
+    D extends DateMap[`${F}${S}`]?true:false
+    :false
+  :never;
+```
+
+## 9160・Assign
+
+```typescript
+type Merge<T> = {
+  [K in keyof T]:T[K]
+}
+
+type Assign<
+  T extends Record<string, unknown>, 
+  U extends any[]
+> =
+U extends [infer F,...infer L]?
+  F extends Record<string,unknown>?
+    Assign<Omit<T,keyof F>& F,L >
+    :Assign<T,L>
+  :Merge<T>
+```
