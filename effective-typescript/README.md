@@ -4,7 +4,8 @@
 
 ### 1. Understand the Relationship Between TypeScript and JavaScript
 
-TypeScript 是 JavaScript 的超集
+* TypeScript 是 JavaScript 的超集
+* TypeScript添加了一个类型系统，该类型系统可对JavaScript的运行时行为进行建模，并尝试发现运行时引发异常的代码
 
 ### 2. Know Which TypeScript Options You're Using
 
@@ -23,7 +24,8 @@ TypeScript提供了可以影响语言层面的配置，比如 noImplicitAny stri
 
 ### 4. Get Comfortable with Structural Typing
 
-JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一定通过extends(继承)实现，只要结构满足依然视为子类型。
+* JS是鸭子类型，TS通过结构化类型对此进行描述。子类型不一定通过extends(继承)实现，只要结构满足依然视为子类型。
+* TypeScript类型不是“密封的”，一个满足特定interface的值可能会有额外的属性，所以遍历对象很难做到类型正确。
 
 ### 5. Limit Use of the any Type
 
@@ -64,6 +66,8 @@ TS中一个符号可以属于Type Space或者Value Space，也可以同时处于
 
 class和enum同时存在于Value Space和Type Space。对于class，既可以作为类型，也可以作为构造函数。enum本身就代表了类型，其编译后对应枚举对象(不用const修饰的情况下)
 
+typeof总是对值进行操作，但是在Type Space返回类型，在Value Space返回js的类型。
+
 ### 9. Prefer Type Declarations to Type Assertions
 
 ### 10. Avoid Object Wrapper Types(String,Number,Boolean,Symbol,BigInt)
@@ -96,7 +100,7 @@ const point:Point= tmp; // 不报错
 
 ### 13. Know the Differences Between type and interface
 
-inteface无法应用于union type | intersection type | conditional type | tuple
+inteface无法应用于union type | intersection type | mapped type | conditional type | tuple
 
 ```typescript
 type AorB = 'A' | 'B'
@@ -109,7 +113,7 @@ interface 可以augumented(合并),而type不可以
 
 ### 14. Use Type Operations and Generics to Avoid Repeating Yourself
 
-DRY原则的类型版本。通过extends/intersection type/uniton type/ keyof / typeof / mapped type / generic type 等操作减少重复
+DRY原则的类型版本。通过extends/intersection type/union type/ keyof / typeof / mapped type / generic type 等操作减少重复
 
 ### 15. Use Index Signatures for Dynamic Data
 
@@ -117,7 +121,7 @@ DRY原则的类型版本。通过extends/intersection type/uniton type/ keyof / 
 
 ### 16. Prefer Arrays, Tuples, and ArrayLike to number Index Signatures
 
-数组实际上是对象，其keys也是string而非number，Typescript里使用number index signature是为了进行更多的类型检查 即使如下代码x[0]和x[‘0’]的行为在运行时完全一致，但是只有x[0]才能正确的推倒出类型。
+数组实际上是对象，其keys也是string而非number，Typescript里使用number index signature是为了进行更多的类型检查 即使如下代码x[0]和x[‘0’]的行为在运行时完全一致，但是只有x[0]才能正确的推导出类型。
 
 ```typescript
 let a : string[] = []
@@ -234,6 +238,8 @@ if(obj.str){
     // 这就是为什么当使用别名和类型收窄时 别名要一致
 }
 ```
+
+在TS 4.6对控制流分析做了优化
 
 ### 25. Use async Functions Instead of Callbacks for Asynchronous Code
 
