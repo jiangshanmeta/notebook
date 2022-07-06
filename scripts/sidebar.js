@@ -47,4 +47,8 @@ module.exports = [
         title:'SVG精髓',
         path:'/svg-essentials/',
     },
+    {
+        title:'深入浅出Node.js',
+        path:'/nodejs-in-depth/'
+    }
 ]
