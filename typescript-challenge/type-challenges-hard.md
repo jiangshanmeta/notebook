@@ -2,6 +2,19 @@
 
 [原项目地址](https://github.com/type-challenges/type-challenges)
 
+## 17・Currying 1
+
+```typescript
+type Curry<T> = 
+  T extends (...args:infer A)=>infer R?
+    A extends [infer F,...infer L]?
+      (a:F)=>Curry<(...args:L)=>R>
+      : R
+    :never;
+
+declare function Currying<T >(fn: T): Curry<T>
+```
+
 ## 55・Union to Intersection
 
 ```typescript
