@@ -335,6 +335,30 @@ K extends string | number ?
   :never;
 ```
 
+## 8804・Two Sum
+
+```typescript
+type MakeArr<T extends number,R extends number[] = []> = R['length'] extends T? R:MakeArr<T,[...R,0]>
+
+type TwoSum<
+  T extends number[], 
+  U extends number,
+  C extends number[] = []
+> =
+  T extends [infer F,...infer R]?
+    [
+      U extends [...MakeArr<F&number>,...C]['length']? true:false,
+      F extends U?true:false
+    ] extends [true,false]
+    ?
+      true:
+        R extends number[]?
+          TwoSum<R,U,C | MakeArr<F&number>>
+          :false
+
+    :false
+```
+
 ## 9155・ValidDate
 
 ```typescript
@@ -386,4 +410,74 @@ U extends [infer F,...infer L]?
     Assign<Omit<T,keyof F>& F,L >
     :Assign<T,L>
   :Merge<T>
+```
+
+## 9775・Capitalize Nest Object Keys
+
+```typescript
+type CapitalizeNestObjectKeys<T> = T extends readonly any[]
+  ? {
+      [K in keyof T]: CapitalizeNestObjectKeys<T[K]>;
+    }
+  : T extends Record<keyof any, any>
+  ? {
+      [K in keyof T as Capitalize<K & string>]: CapitalizeNestObjectKeys<T[K]>;
+    }
+  : T;
+```
+
+## 14188・Run-length encoding
+
+```typescript
+type Make10<S extends string> = `${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}`
+
+type Repeat<T extends string,N extends string,R extends string = ''> = 
+    N extends `${infer F}${infer L}`?
+      F extends '1'?
+        Repeat<T,L,`${Make10<R>}${T}`>:
+        F extends '2'?
+          Repeat<T,L,`${Make10<R>}${T}${T}`>:
+            F extends '3'?
+              Repeat<T,L,`${Make10<R>}${T}${T}${T}`>:
+                F extends '4'?
+                  Repeat<T,L,`${Make10<R>}${T}${T}${T}${T}`>:
+                    F extends '5'?
+                      Repeat<T,L,`${Make10<R>}${T}${T}${T}${T}${T}`>:
+                        F extends '6'?
+                          Repeat<T,L,`${Make10<R>}${T}${T}${T}${T}${T}${T}`>:
+                            F extends '7'?
+                              Repeat<T,L,`${Make10<R>}${T}${T}${T}${T}${T}${T}${T}`>:
+                                F extends '8'?
+                                  Repeat<T,L,`${Make10<R>}${T}${T}${T}${T}${T}${T}${T}${T}`>:
+                                    F extends '9'?
+                                      Repeat<T,L,`${Make10<R>}${T}${T}${T}${T}${T}${T}${T}${T}${T}`>:
+                                        Repeat<T,L,Make10<R>>
+
+      :R
+
+namespace RLE {
+  type Length<T extends number> = T extends 1?'':`${T}`
+
+
+  export type Encode<S extends string,R extends string = '',Q extends string[] = []> = 
+    S extends `${infer F}${infer L}`?
+      Q['length'] extends 0?
+        Encode<L,R,[F]>
+        :F extends Q[0]?
+          Encode<L,R,[...Q,F]>
+          :Encode<L,`${R}${Length<Q['length']>}${Q[0]}`,[F]>
+
+      :Q['length'] extends 0?
+        R:`${R}${Length<Q['length']>}${Q[0]}`
+
+
+  
+  type Num = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+  export type Decode<S extends string,N extends string = '',R extends string = ''> = 
+    S extends `${infer F}${infer L}`?
+      F extends Num?
+        Decode<L,`${N}${F}`,R>
+        :Decode<L,'',`${R}${Repeat<F,N extends ''?'1':N>}`>
+      :R
+}
 ```
