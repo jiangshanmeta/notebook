@@ -481,3 +481,12 @@ namespace RLE {
       :R
 }
 ```
+
+## 15260・Tree path array
+
+```typescript
+type Path<T,S extends any[] = [],K extends keyof T = keyof T> = 
+  K extends keyof T?
+    [...S,K] | (T[K] extends Record<keyof any,any>? Path<T[K],[...S,K]>:never)
+    :never 
+```

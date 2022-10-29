@@ -681,3 +681,53 @@ U extends T?
 ```typescript
 type Subsequence<T extends any[],Prefix extends any[] = []> = T extends [infer F,...infer R]? Subsequence<R,Prefix | [...Prefix,F]>:Prefix
 ```
+
+## 9896・GetMiddleElement
+
+```typescript
+type GetMiddleElement<T extends any[]> = 
+  T['length'] extends 0 | 1 | 2?
+    T:
+    T extends [any,...infer M,any]?
+      GetMiddleElement<M>:never
+```
+
+## 10969・Integer
+
+```typescript
+type Integer<T extends number> = 
+  number extends T?
+    never:
+      `${T}` extends `${string}.${string}`?never:T
+```
+
+## 16259・ToPrimitive
+
+```typescript
+type ToPrimitive<T> = 
+  T extends Record<keyof any,any>?
+    {
+      [K in keyof T]:ToPrimitive<T[K]>
+    }:
+    T extends number?
+      number:
+      T extends string?
+        string:
+        T extends boolean?
+          boolean:
+          T extends null?
+            null:
+            T extends undefined?
+              undefined:never
+```
+
+## 17973・DeepMutable
+
+```typescript
+type DeepMutable<T extends Record<keyof any,any>> =
+  T extends (...args:any[])=>any?
+    T:
+    {
+      - readonly [K in keyof T]:DeepMutable<T[K]>
+    }
+```
