@@ -50,5 +50,9 @@ module.exports = [
     {
         title:'深入浅出Node.js',
         path:'/nodejs-in-depth/'
+    },
+    {
+        title:'程序员的算法趣题',
+        path:'/interesting-algorithm-puzzles-for-programmers/'
     }
 ]
