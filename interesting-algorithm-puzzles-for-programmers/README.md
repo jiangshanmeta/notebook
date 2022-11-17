@@ -2,3 +2,4 @@
 
 * [回文十进制数](./Palindrome.md)
 * [翻牌](./Card.md)
+* [切分木棒](./Cutbar.md)
