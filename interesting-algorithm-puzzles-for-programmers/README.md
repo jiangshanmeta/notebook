@@ -4,3 +4,4 @@
 * [翻牌](./Card.md)
 * [切分木棒](./Cutbar.md)
 * [还在用现金支付吗](./coin-change.md)
+* [改版考拉兹猜想](./collatz.md)
