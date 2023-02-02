@@ -3,3 +3,4 @@
 ## Bit Manipulation
 
 * [Sum vs XOR](./bitwise/sumXor.md)
+* [Flipping bits](./bitwise/flippingBits.md)
