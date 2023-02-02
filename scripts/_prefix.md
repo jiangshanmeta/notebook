@@ -7,5 +7,6 @@
 * [lintcode题解](https://github.com/jiangshanmeta/lintcode)
 * [剑指offer题解](https://github.com/jiangshanmeta/coding-interviews)
 * [typescript-challenge](./typescript-challenge)
+* [HackerRank](./hacker-rank)
 
 ## notebooks
