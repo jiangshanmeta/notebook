@@ -4,3 +4,4 @@
 
 * [Sum vs XOR](./bitwise/sumXor.md)
 * [Flipping bits](./bitwise/flippingBits.md)
+* [Maximizing XOR](./bitwise/maximizing-xor.md)
