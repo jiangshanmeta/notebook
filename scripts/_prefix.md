@@ -8,5 +8,6 @@
 * [剑指offer题解](https://github.com/jiangshanmeta/coding-interviews)
 * [typescript-challenge](./typescript-challenge)
 * [HackerRank](./hacker-rank)
+* [测试](./test)
 
 ## notebooks
