@@ -68,3 +68,21 @@ coverageReporter: {
     }
 },
 ```
+
+## 如何监听Map原型方法被调用
+
+我有一个class，它在内部实例化了一个Map，并且调用了map的delete方法，如何测试这个delete方法被调用
+
+```typescript
+const spyOnDelete = spyOn( Map.prototype, 'delete' )
+expect( Map.prototype.delete ).toHaveBeenCalledTimes( 2 )
+// 看参数是否匹配
+expect( spyOnDelete.calls.allArgs() ).toEqual( [
+    [
+        'https://jiangshanmeta.github.io/spider?id=1'
+    ],
+    [
+        'https://jiangshanmeta.github.io/spider?id=2'
+    ]
+] )
+```
