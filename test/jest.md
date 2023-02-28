@@ -51,3 +51,36 @@ test('handle getRawHTML error', async () => {
     }
 })
 ```
+
+## 如何在某个测试用例中mock依赖
+
+jest.mock方法是作用在整个测试文件层面的，要在某个具体的单元测试mock依赖，可以使用[jest.doMock](https://jestjs.io/docs/jest-object#jestdomockmodulename-factory-options)
+
+```typescript
+it('when target is not custom',()=>{
+
+    // 模拟第三方库material-ui
+    jest.doMock('@material-ui/core',()=>{
+        return {
+            __esModule: true,
+            FormControl:(props)=>{
+                return props.children;
+            },
+        }
+    })
+
+    // 要再次导入才行
+    return import('@material-ui/core').then(()=>{
+        // 必须要require 动态导入import()有点问题
+        const {default:Component} = require('components/BadgeContent')
+        const setBadge = jest.fn();
+        const {
+            container,
+        } = render(<Component badge={DEFAULT_BADGE} setBadge={setBadge} />)
+
+        // Act and Assertion
+    })
+    
+})
+
+```

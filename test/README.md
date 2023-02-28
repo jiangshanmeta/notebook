@@ -2,4 +2,5 @@
 
 * [Jest](./jest.md)
 * [React](./react.md)
-* [Angular](./angular.md)
+* [Angular Unit Test](./angular-jasmine.md)
+* [Angular Cypress](./angular-cypress.md)
