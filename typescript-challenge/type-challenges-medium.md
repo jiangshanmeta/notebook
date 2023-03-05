@@ -682,6 +682,23 @@ U extends T?
 type Subsequence<T extends any[],Prefix extends any[] = []> = T extends [infer F,...infer R]? Subsequence<R,Prefix | [...Prefix,F]>:Prefix
 ```
 
+## 8987・FirstUniqueCharIndex
+
+```typescript
+type GetCountMap<S extends string,M extends Record<string,boolean> = {}> = S extends `${infer F}${infer R}`? GetCountMap<R,F extends keyof M? Omit<M,F>&Record<F,false>: M &Record<F,true>   >:M
+
+type FirstUniqueCharIndex<
+  T extends string,
+  P extends any[] = [],
+  M extends Record<string,boolean> = GetCountMap<T>
+> = 
+T extends `${infer F}${infer R}`? 
+  M[F] extends true?
+    P['length']
+    :FirstUniqueCharIndex<R,[...P,0],M>
+  :-1
+```
+
 ## 9896・GetMiddleElement
 
 ```typescript
@@ -730,4 +747,18 @@ type DeepMutable<T extends Record<keyof any,any>> =
     {
       - readonly [K in keyof T]:DeepMutable<T[K]>
     }
+```
+
+## 18142・All
+
+```typescript
+type All<T extends any[],U> = [{
+  [K in keyof T]:Equal<T[K],U>
+}[number] ] extends [true]? true:false
+```
+
+## 18220・Filter
+
+```typescript
+type Filter<T extends any[], P,R extends any[] = []> = T extends [infer F,...infer L]? Filter<L,P,F extends P?[...R,F]:R>:R 
 ```

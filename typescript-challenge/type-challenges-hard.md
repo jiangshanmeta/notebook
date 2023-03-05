@@ -490,3 +490,17 @@ type Path<T,S extends any[] = [],K extends keyof T = keyof T> =
     [...S,K] | (T[K] extends Record<keyof any,any>? Path<T[K],[...S,K]>:never)
     :never 
 ```
+
+## 19458・SnakeCase
+
+```typescript
+type SnakeCase<
+  T extends string,
+  R extends string = ''
+> = 
+T extends `${infer F}${infer L}`?
+  F extends Uppercase<F>?
+    SnakeCase<L,`${R}_${Lowercase<F>}` >
+    :SnakeCase<L,`${R}${F}` >
+  :R;
+```
