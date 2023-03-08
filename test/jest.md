@@ -84,3 +84,86 @@ it('when target is not custom',()=>{
 })
 
 ```
+
+## 如何测试对某个第三方库的调用
+
+我们的一个组件用到了第三方库：
+
+```typescript
+import copy from "copy-to-clipboard";
+```
+
+当用户点击的时候回调用这个copy方法。
+
+在测试文件中，
+
+```typescript
+// 一定要导入，mock后可以对copy直接断言
+import copy from 'copy-to-clipboard'
+
+// 整个文件都mock
+jest.mock('copy-to-clipboard',()=>{
+    return jest.fn().mockImplementation(()=>{
+        return true
+    })
+})
+```
+
+在具体的test case中:
+
+```typescript
+// 断言调用
+expect(copy).toBeCalledTimes(1)
+```
+
+## dynamic require后Invalid hook call
+
+我要测试的组件引入了第三方的UI库，在某个test case中，为了方便测试需要mock某些组件，这个问题上面已经解决了。但是我的组件中使用了react hook，就报错了。[jest的issue](https://github.com/facebook/jest/issues/8987)提到了这个问题，但是个3年都没close掉。
+
+根据其中一个题目中的[workaround](https://github.com/facebook/jest/issues/8987#issuecomment-584898030)解决了这个问题。
+
+首先编辑```jest.config.js```文件，编辑setupFiles属性
+
+```javascript
+const customJestConfig = {
+    moduleDirectories: ['node_modules', '<rootDir>/'],
+    moduleNameMapper: {
+        '@/(.*)$': '<rootDir>/src/$1',
+    },
+    testEnvironment: 'jest-environment-jsdom',
+    // 添加这个jest.setup.js文件，文件名其实可以随意
+    setupFiles: ['./jest.setup.js']
+}
+```
+
+在```jest.setup.js```文件中写入以下内容:
+
+```javascript
+const RESET_MODULE_EXCEPTIONS = [
+    'react',
+];
+
+let mockActualRegistry = {};
+
+RESET_MODULE_EXCEPTIONS.forEach(moduleName => {
+    jest.doMock(moduleName, () => {
+        if (!mockActualRegistry[moduleName]) {
+            mockActualRegistry[moduleName] = jest.requireActual(moduleName);
+        }
+        return mockActualRegistry[moduleName];
+    });
+});
+```
+
+这样还是有点问题，需要在要测试的case用jest.isolateModules包一层:
+
+```typescript
+it('dynamic require',()=>{
+    jest.isolateModules(()=>{
+        jest.mock('moduleName',()=>{
+            return {}
+        })
+        // Arrange Act Assert
+    })
+})
+```
