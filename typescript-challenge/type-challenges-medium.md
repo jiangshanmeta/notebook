@@ -682,7 +682,20 @@ U extends T?
 type Subsequence<T extends any[],Prefix extends any[] = []> = T extends [infer F,...infer R]? Subsequence<R,Prefix | [...Prefix,F]>:Prefix
 ```
 
-## 8987・FirstUniqueCharIndex
+## 9142・CheckRepeatedChars
+
+```typescript
+type CheckRepeatedChars<
+  T extends string,
+  A extends string = never
+> =
+T extends `${infer F}${infer R}`?
+  F extends A?
+    true:CheckRepeatedChars<R, A | F>
+  :false
+```
+
+## 9286・FirstUniqueCharIndex
 
 ```typescript
 type GetCountMap<S extends string,M extends Record<string,boolean> = {}> = S extends `${infer F}${infer R}`? GetCountMap<R,F extends keyof M? Omit<M,F>&Record<F,false>: M &Record<F,true>   >:M
@@ -707,6 +720,31 @@ type GetMiddleElement<T extends any[]> =
     T:
     T extends [any,...infer M,any]?
       GetMiddleElement<M>:never
+```
+
+## 9898・Appear only once
+
+```typescript
+type DuplicateMap<
+  T extends number[],
+  M extends Record<number,boolean> = {}
+> = 
+  T extends [infer F extends number,...infer R extends number[]]?
+    F extends keyof M?
+      DuplicateMap<R, Omit<M,F>&Record<F,false>>
+      :DuplicateMap<R, M&Record<F,true> >
+    :M
+
+type FindEles<
+  T extends number[],
+  R extends number[] = [],
+  M extends Record<number,boolean>= DuplicateMap<T>,
+> = 
+T extends [infer F extends number,...infer L extends number[]]?
+  M[F] extends true? 
+    FindEles<L,[...R,F],M>
+    :FindEles<L,R,M>
+  :R
 ```
 
 ## 10969・Integer
@@ -761,4 +799,15 @@ type All<T extends any[],U> = [{
 
 ```typescript
 type Filter<T extends any[], P,R extends any[] = []> = T extends [infer F,...infer L]? Filter<L,P,F extends P?[...R,F]:R>:R 
+```
+
+## 21106・Combination key type
+
+```typescript
+type Combs<
+  T extends string[]
+> = 
+  T extends [infer F extends string,...infer R extends string[] ]?
+    `${F} ${R[number]}` | Combs<R>
+  :never
 ```
