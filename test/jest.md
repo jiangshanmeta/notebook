@@ -167,3 +167,25 @@ it('dynamic require',()=>{
     })
 })
 ```
+
+## jsdom
+
+jest基于jsdom模拟DOM，但是这个jsdom其实不支持layout，所以像是 offsetTop innerHeight这种就没法直接处理了。
+
+一个workaround的方法：
+
+```typescript
+Object.defineProperty(window,'innerHeight',{
+    writable:true,
+    configurable:true,
+    value:750
+})
+
+Object.defineProperty(HTMLDivElement.prototype,'offsetTop',{
+    writable:true,
+    configurable:true,
+    value: 200,
+})
+```
+
+这样强行定义这些和layout有关的属性
