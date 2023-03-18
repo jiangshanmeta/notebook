@@ -811,3 +811,27 @@ type Combs<
     `${F} ${R[number]}` | Combs<R>
   :never
 ```
+
+## 25170・Replace First
+
+```typescript
+type ReplaceFirst<
+  T extends readonly unknown[], 
+  S, 
+  R,
+  P extends any[] = []
+> = 
+T extends [infer F,...infer L]?
+  F extends S? [...P,R,...L]:ReplaceFirst<L,S,R,[...P,F]>
+  :P
+```
+
+## 25270・Transpose
+
+```typescript
+type Transpose<M extends number[][],R = M['length'] extends 0?[]:M[0]> = {
+  [X in keyof R]:{
+    [Y in keyof M]:X extends keyof M[Y]?M[Y][X]:never
+  }
+}
+```
