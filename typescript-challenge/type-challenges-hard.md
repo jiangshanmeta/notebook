@@ -504,3 +504,20 @@ T extends `${infer F}${infer L}`?
     :SnakeCase<L,`${R}${F}` >
   :R;
 ```
+
+## 25747・IsNegativeNumber
+
+```typescript
+type IsUnion<T,U = T> = T extends U ?
+  [U] extends [T]?false:true
+  :never
+type IsNegativeNumber<
+  T extends number
+> = 
+IsUnion<T> extends true?
+  never:
+  number extends T?
+    never:
+    `${T}` extends `-${string}`?
+      true:false
+```
