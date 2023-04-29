@@ -835,3 +835,28 @@ type Transpose<M extends number[][],R = M['length'] extends 0?[]:M[0]> = {
   }
 }
 ```
+
+## 26401・JSON Schema to TypeScript
+
+```typescript
+type Merge<T> = {
+  [K in keyof T]:T[K]
+}
+
+type RequireByKeys<T, KS extends keyof T> = Merge< Required<Pick<T,KS>>& Omit<T,KS>>
+
+type JSONSchema2TS<T> = 
+T extends {type: "string"}?
+  T extends {enum:string[] }? T['enum'][number]:string : 
+    T extends {type:"number"}? 
+      T extends {enum:number[]}? T['enum'][number]:number:
+        T extends {type:"boolean"}?
+          boolean:
+          T extends {type: "object"}?
+            T extends {properties:any}? 
+              RequireByKeys<{[K in keyof T['properties']]?:JSONSchema2TS<T['properties'][K]>}, T extends {required:Array<keyof T['properties']>}?T['required'][number]: never  >
+              :Record<string,unknown>:
+              T extends {type: "array"}?
+                T extends {items:any}? Array<JSONSchema2TS<T['items']>>:unknown[]
+                :never
+```
