@@ -127,6 +127,12 @@ type ToTuple<S extends string,T extends any[] = []> = S extends `${infer F}${inf
 type ToNumber<S extends string> = ToTuple<S>['length']
 ```
 
+A better way
+
+```typescript
+type ToNumber<S extends string> = S extends `${infer T extends number}`?T:never
+```
+
 ## 399・Tuple Filter
 
 ```typescript
@@ -424,6 +430,26 @@ type CapitalizeNestObjectKeys<T> = T extends readonly any[]
       [K in keyof T as Capitalize<K & string>]: CapitalizeNestObjectKeys<T[K]>;
     }
   : T;
+```
+
+## 13580・Replace Union
+
+```typescript
+type Replace<T, U extends [any,any][]> = 
+  U extends [
+    infer F extends [any,any],
+    ...infer R extends [any,any][]
+  ]? 
+    T extends F[0]?
+      F[1]:
+      Replace<T,R>
+    :never
+  
+type UnionReplace<T, U extends [any, any][]> = 
+  T extends any?
+    T extends U[number][0]?
+      Replace<T,U>:T
+    :never
 ```
 
 ## 14188・Run-length encoding

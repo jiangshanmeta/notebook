@@ -860,3 +860,14 @@ T extends {type: "string"}?
                 T extends {items:any}? Array<JSONSchema2TS<T['items']>>:unknown[]
                 :never
 ```
+
+## 27862・CartesianProduct
+
+```typescript
+type CartesianProduct<T, U,TC = T,UC = U> = 
+TC extends T?
+  UC extends U?
+    [TC,UC]
+    :never
+  :never
+```
