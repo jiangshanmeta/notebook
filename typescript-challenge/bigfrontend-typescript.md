@@ -608,3 +608,121 @@ type FindIndex<T extends any[], E,H extends any[]=[]> = T extends [infer F,...in
   Equal<F,E> extends true? H['length']: FindIndex<O,E,[1,...H]>
   :never;
 ```
+
+### UndefinedToNull
+
+```typescript
+type UndefinedToNull<T> = 
+T extends Record<keyof any,any> ? 
+  {
+    [K in keyof T]:UndefinedToNull<T[K]>
+  }: T extends undefined? null:T
+```
+
+### MapStringUnionToObjectUnion
+
+```typescript
+type MapStringUnionToObjectUnion<T> = 
+T extends any? {
+  value:T
+} :never
+```
+
+### Diff
+
+```typescript
+type DiffKeys<
+  A extends Record<string, any>,
+  B extends Record<string, any>,
+  KS = (keyof A) | (keyof B)
+> = 
+KS extends any?
+  KS extends (keyof A)?
+    KS extends (keyof B)?
+      never:KS
+    : 
+    KS extends (keyof B)?
+      KS:never
+
+  :never
+
+```
+
+### ObjectPaths
+
+```typescript
+type ObjectPaths<O extends Record<string, any>, Path extends string = '',KS = keyof O > = 
+  KS extends keyof O?
+    O[KS] extends Record<string,any>?
+      ObjectPaths<O[KS],Path extends ''? KS: `${Path}.${KS&string}`  >
+      : Path extends ''? KS: `${Path}.${KS&string}`
+    :never
+
+```
+
+### Abs
+
+```typescript
+type Abs<N extends number> = `${N}` extends `-${infer N1 extends number}`?N1:N
+```
+
+### StringToNumber
+
+```typescript
+type StringToNumber<S extends string> = S extends `${infer N extends number}`?N:never
+```
+
+### Split
+
+```typescript
+type Split<S extends string, D extends string,R extends string[] = []> = 
+  S extends `${infer A}${D}${infer B}`?
+    Split<B,D,[...R,A]>:[...R,S]
+```
+
+### Capitalize
+
+```typescript
+type MyCapitalize<T extends string> = T extends `${infer A}${infer B}`? `${Uppercase<A>}${B}`:T
+```
+
+### CamelCase
+
+```typescript
+type CamelCase<S extends string> = S extends `${infer A}_${infer B}`? `${Capitalize<A>}${CamelCase<B>}`:Capitalize<S>
+```
+
+### SnakeCase
+
+```typescript
+type SnakeCase<S extends string,P extends string = ''> = 
+  S extends `${infer F}${infer R}`?
+    F extends Uppercase<F>?
+      SnakeCase<R, `${P}${P extends ''?'':'_' }${Lowercase<F>}`>
+      :SnakeCase<R,`${P}${F}`>
+    :`${P}${S}`
+
+```
+
+### Slice
+
+```typescript
+type Slice<
+  A extends any[], 
+  S extends number = 0, 
+  E extends number = A['length'],
+  P extends any[] = [],
+  R extends any[] = [],
+  I extends boolean = false,
+> = 
+P['length'] extends E?
+  R:
+  A extends [infer F,...infer G]?
+    I extends false?
+      P['length'] extends S?
+        Slice<G,S,E,[...P,F],[...R,F],true>
+        :Slice<G,S,E,[...P,F],R,false>
+      :Slice<G,S,E,[...P,F],[...R,F],true>
+
+    :R
+```

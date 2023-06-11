@@ -34,3 +34,4 @@
 * min binary heap
 * deterministic 确定性的
 * non-deterministic 非确定性的
+* degrade 降级

@@ -871,3 +871,31 @@ TC extends T?
     :never
   :never
 ```
+
+## 27932・MergeAll
+
+```typescript
+type Merge<T,U> = {
+  [K in (keyof T) | (keyof U)]: 
+    K extends keyof T?
+      K extends keyof U?
+        T[K] | U[K]
+        : T[K]
+      : K extends keyof U? U[K]:never
+}
+
+type MergeAll<XS extends any[],R = {}> = 
+XS extends [infer F,...infer Z]?
+  MergeAll<Z, Merge<R,F>>:R
+```
+
+## 27958・CheckRepeatedTuple
+
+```typescript
+type CheckRepeatedTuple<T extends unknown[],U extends unknown[] = []> = 
+T extends [infer F,...infer R]?
+  F extends U[number]?
+    true:
+    CheckRepeatedTuple<R,[...U,F]>
+  :false
+```
