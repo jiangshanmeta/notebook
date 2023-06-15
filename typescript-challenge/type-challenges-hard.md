@@ -547,3 +547,26 @@ IsUnion<T> extends true?
     `${T}` extends `-${string}`?
       true:false
 ```
+
+## 28143・OptionalUndefined
+
+```typescript
+type Merge<T> = {
+  [K in keyof T]:T[K]
+}
+
+type OptionalUndefined<
+  T, 
+  Props extends keyof T = keyof T,
+  OptionsProps extends keyof T = 
+    Props extends keyof T? 
+      undefined extends T[Props]? 
+        Props:never 
+      :never
+> = 
+  Merge<{
+    [K in OptionsProps]?:T[K]
+  } & {
+    [K in Exclude<keyof T,OptionsProps>    ]:T[K]
+  }>
+```
