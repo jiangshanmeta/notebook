@@ -219,6 +219,76 @@ type Comparator<
     : CompareNonNegative<`${A}`,`${B}`>
 ```
 
+## 734・Inclusive Range
+
+```typescript
+type GreatThanByLength<A extends string,B extends string> = 
+A extends `${string}${infer AR}`?
+  B extends `${string}${infer BR}`?
+    GreatThanByLength<AR,BR>
+    : 1
+  :
+  B extends ''? 0: -1
+
+
+type GreatThanByDigitConfig = {
+  '0':never;
+  '1': '0',
+  '2': '0' | '1',
+  '3': '0' | '1' | '2',
+  '4': '0' | '1' | '2' | '3',
+  '5': '0' | '1' | '2' | '3' | '4',
+  '6': '0' | '1' | '2' | '3' | '4' | '5',
+  '7': '0' | '1' | '2' | '3' | '4' | '5' | '6',
+  '8': '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7',
+  '9': '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
+}
+
+
+
+type GreatThanBydigit<A extends string,B extends string> = 
+A extends keyof GreatThanByDigitConfig?
+  B extends GreatThanByDigitConfig[A]? true:false
+  :false
+
+
+type GreatThanByDigits<A extends string,B extends string> = 
+A extends `${infer AF}${infer AR}`?
+  B extends `${infer BF}${infer BR}`?
+    AF extends BF?
+      GreatThanByDigits<AR,BR>
+      : GreatThanBydigit<AF,BF>
+    :false
+  :false
+
+
+type GreatThan<A extends number,B extends number> = 
+A extends B?
+  false:
+  GreatThanByLength<`${A}`,`${B}`> extends infer C?
+    C extends 1?
+      true:
+      C extends 0?
+        GreatThanByDigits<`${A}`,`${B}`>
+        :false
+    :never
+
+
+type MakeTuple<T extends number,R extends number[] = []> = 
+R['length'] extends T ?
+  R:MakeTuple<T,[...R,0]>
+
+type Range<L extends number,H extends number,R extends number[] = [],C extends number[] = MakeTuple<L> > = 
+C['length'] extends H?
+  [...R,H]
+  :Range<L,H,[...R,C['length']],[...C,0]>
+
+
+type InclusiveRange<Lower extends number, Higher extends number> = 
+GreatThan<Lower,Higher> extends true?
+  []:Range<Lower,Higher>
+```
+
 ## 741・Sort
 
 ```typescript
