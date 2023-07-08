@@ -418,6 +418,116 @@ U extends [infer F,...infer L]?
   :Merge<T>
 ```
 
+### 9384・Maximum
+
+```typescript
+type ParseNumber<
+  S extends string
+> = 
+  S extends `${infer I}.${infer D}`?
+    [I,D]
+    :[S,'']
+// l -> -1 e->0 g->1
+type CompareLength<
+  A extends string,
+  B extends string,
+> = 
+  A extends `${string}${infer AR}`?
+    B extends `${string}${infer BR}`?
+      CompareLength<AR,BR>
+      :1
+    : 
+    B extends A?
+      0:-1
+
+type GreatConfig  = {
+  "0": '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'| '9'
+  "1": '2' | '3' | '4' | '5' | '6' | '7' | '8'| '9',
+  '2': '3' | '4' | '5' | '6' | '7' | '8'| '9',
+  "3": '4' | '5' | '6' | '7' | '8'| '9',
+  "4": '5' | '6' | '7' | '8'| '9',
+  "5": '6' | '7' | '8'| '9',
+  '6': '7' | '8'| '9',
+  "7": '8'| '9'
+  "8": '9',
+  '9': never,
+}
+
+type CompareDigit<
+  A extends string,
+  B extends string,
+> = 
+  A extends B?
+    0:
+    A extends keyof GreatConfig?
+      B extends GreatConfig[A]?
+        -1:1
+      :never
+
+type CompareDigits<
+  A extends string,
+  B extends string,
+> =
+A extends `${infer AF}${infer AR}`?
+    B extends `${infer BF}${infer BR}`?
+        CompareDigit<AF, BF> extends infer CR?
+            CR extends 0?
+                CompareDigits<AR, BR>
+                :CR
+            :never
+        : 1
+  :
+  B extends A?
+    0:-1
+    
+
+type CompareNonNegetive<
+  T extends string,
+  U extends string,
+  TP extends [string,string] = ParseNumber<T>,
+  UP extends [string,string] = ParseNumber<U>,
+  ByLength extends (0 | 1 | -1) = CompareLength<TP[0],UP[0]>
+> = 
+
+  ByLength extends 0?
+    TP[0] extends UP[0]?
+      CompareDigits<TP[1],UP[1]>
+      :CompareDigits<TP[0],UP[0]>
+    
+    :ByLength
+
+
+type LTE<
+  A extends number,
+  B extends number,
+> = 
+`${A}` extends `-${infer ABS_A}`?
+  `${B}` extends `-${infer ABS_B}`?
+    CompareNonNegetive<ABS_B,ABS_A> extends 1?false:true
+    : true
+  :
+  `${B}` extends `-${string}`?
+    false: 
+    CompareNonNegetive<`${A}`,`${B}`> extends 1? false:true
+
+
+
+type Max<
+  T extends number[],
+  R extends number
+> =
+T extends [infer F extends number,...infer L extends number[]]?
+  LTE<R,F> extends true?
+    Max<L,F>: Max<L,R>
+  :R
+
+
+type Maximum<T extends number[]> = 
+T['length'] extends 0?
+  never:
+  Max<T,T[0]>
+```
+
 ## 9775・Capitalize Nest Object Keys
 
 ```typescript
@@ -450,6 +560,26 @@ type UnionReplace<T, U extends [any, any][]> =
     T extends U[number][0]?
       Replace<T,U>:T
     :never
+```
+
+## 14080・FizzBuzz
+
+```typescript
+type FizzBuzz<
+  N extends number,
+  R extends string[] = [],
+  Three extends any[] = [0],
+  Five extends any[] = [0]
+> = 
+R['length'] extends N?
+  R:
+  [Three['length'],Five['length']] extends [3,5]?
+    FizzBuzz<N,[...R,'FizzBuzz'],[0],[0]>:
+    Three['length'] extends 3?
+      FizzBuzz<N,[...R,'Fizz'],[0],[...Five,0]>:
+      Five['length'] extends 5?
+        FizzBuzz<N,[...R,'Buzz'],[...Three,0],[0]>:
+        FizzBuzz<N,[...R,`${[...R,0]['length']}`],[...Three,0],[...Five,0]>
 ```
 
 ## 14188・Run-length encoding
