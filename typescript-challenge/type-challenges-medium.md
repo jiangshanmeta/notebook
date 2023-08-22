@@ -712,6 +712,21 @@ T extends `${infer F}${infer R}`?
   :-1
 ```
 
+## 9616・Parse URL Params
+
+```typescript
+type ParseUrlParams<
+  T extends string,
+  R extends string = never
+> = 
+T extends `${string}:${infer S}/${infer L}`?
+  ParseUrlParams<L,R | S>:
+  T extends `${string}:${infer S}`?
+    R | S
+    : R
+
+```
+
 ## 9896・GetMiddleElement
 
 ```typescript
@@ -833,6 +848,29 @@ type All<T extends any[],U> = [{
 type Filter<T extends any[], P,R extends any[] = []> = T extends [infer F,...infer L]? Filter<L,P,F extends P?[...R,F]:R>:R 
 ```
 
+## 21104・FindAll
+
+```typescript
+type NormalFindAll<
+  T extends string, 
+  S extends string,
+  P extends any[] = [],
+  R extends number[] = [],
+> = 
+T extends `${string}${infer L}`?
+  T extends `${S}${string}`?
+    NormalFindAll<L,S,[...P,0],[...R,P['length']]>
+    :NormalFindAll<L,S,[...P,0],R>
+  :R
+
+type FindAll<
+  T extends string, 
+  P extends string,
+> = 
+P extends ''?
+  []:NormalFindAll<T,P>
+```
+
 ## 21106・Combination key type
 
 ```typescript
@@ -842,6 +880,26 @@ type Combs<
   T extends [infer F extends string,...infer R extends string[] ]?
     `${F} ${R[number]}` | Combs<R>
   :never
+```
+
+## 21220・Permutations of Tuple
+
+```typescript
+type Insert<
+  T extends unknown[],
+  U
+> = 
+T extends [infer F,...infer L]
+  ? [F,U,...L] | [F,...Insert<L,U> ] 
+  : [U]
+
+type PermutationsOfTuple<
+  T extends unknown[],
+  R extends unknown[] = []
+> = 
+T extends [infer F,...infer L]?
+  PermutationsOfTuple<L,Insert<R,F> | [F,...R] >
+  :R
 ```
 
 ## 25170・Replace First
@@ -930,4 +988,28 @@ T extends [infer F,...infer R]?
     true:
     CheckRepeatedTuple<R,[...U,F]>
   :false
+```
+
+## 28333・Public Type
+
+```typescript
+type PublicType<T extends object> = {
+  [K in keyof T as K extends `_${string}`? never:K]:T[K]
+}
+```
+
+## 29650・ExtractToObject
+
+```typescript
+type Merge<T> = {
+  [K in keyof T]:T[K]
+}
+
+type ExtractToObject<
+  T, 
+  U extends keyof T
+> = 
+Merge<
+  Omit<T,U>&T[U]
+>
 ```
