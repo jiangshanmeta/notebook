@@ -219,6 +219,28 @@ type Comparator<
     : CompareNonNegative<`${A}`,`${B}`>
 ```
 
+## 462・Currying 2
+
+```typescript
+type Remove<T extends any[],U extends any[]> = 
+[T,U] extends [[infer TF,...infer TR],[infer UF,...infer UR] ]?
+  Remove<TR,UR>
+  :T
+
+type Overloads<T extends any[]> = 
+T extends [infer F,...infer L]?
+  [F] | [F,...Overloads<L>] | []
+  : []
+
+type Curried<P extends any[],R extends any> = 
+P extends [infer F,...infer L]?
+  <K extends Overloads<L>>(arg:F,...rest:K)=> Curried<Remove<L,K>,R >
+  :R
+
+
+declare function DynamicParamsCurrying<P extends any[],R>(fn: (...args:P)=>R ): Curried<P,R>
+```
+
 ## 734・Inclusive Range
 
 ```typescript

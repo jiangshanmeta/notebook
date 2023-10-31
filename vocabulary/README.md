@@ -35,3 +35,7 @@
 * deterministic 确定性的
 * non-deterministic 非确定性的
 * degrade 降级
+* mutually exclusive type 互斥类型
+* generic instantiation 泛型实例化
+* ternary operator 三元运算符
+* brainteaser 谜题

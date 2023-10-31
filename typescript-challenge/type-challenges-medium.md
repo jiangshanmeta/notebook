@@ -1013,3 +1013,35 @@ Merge<
   Omit<T,U>&T[U]
 >
 ```
+
+## 29785・Deep Omit
+
+```typescript
+type DeepOmit<T,Keys> = {
+  [K in keyof T as 
+    K extends Keys? 
+      never:
+      K
+  ]:K extends Keys?
+      never:
+      Keys extends `${infer F}.${infer R}`?
+        K extends F?
+          DeepOmit<T[K],R>:T[K]
+        :T[K]
+}
+```
+
+## 30301・IsOdd
+
+```typescript
+type ToString<T extends number> = `${T}`
+type LastDigit<T extends string> = 
+T extends `${infer F}${infer L}`?
+  L extends ""?
+    F:LastDigit<L>
+  :never
+
+type Match<T extends string> = T extends '1' | '3' | '5' | '7' | '9'?true:false
+
+type IsOdd<T extends number> = Match<LastDigit<ToString<T>>>
+```

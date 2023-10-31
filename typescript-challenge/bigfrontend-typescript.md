@@ -726,3 +726,12 @@ P['length'] extends E?
 
     :R
 ```
+
+### Prefix
+
+```typescript
+type Prefix<T extends Record<string, any>, P extends string> 
+  = {
+    [K in keyof T as `${P}_${K&string}`]:T[K]
+  }
+```
