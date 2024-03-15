@@ -39,3 +39,14 @@
 * generic instantiation 泛型实例化
 * ternary operator 三元运算符
 * brainteaser 谜题
+* synchronization 同步
+* connection stream (connect to destination or source)
+* chain stream
+* unary operator
+* binary operator
+* ternary operator
+* operand
+* compact constructor
+* canonical constructor
+* homogenerous
+* heterogeneous

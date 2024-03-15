@@ -1045,3 +1045,31 @@ type Match<T extends string> = T extends '1' | '3' | '5' | '7' | '9'?true:false
 
 type IsOdd<T extends number> = Match<LastDigit<ToString<T>>>
 ```
+
+## 30958・Pascal's triangle
+
+```typescript
+type GetLast<T extends number[][]> = T extends [...any,infer L extends number[]]?L:never;
+
+type ToTuple<T extends number,R extends number[] = []> = R['length'] extends T? R: ToTuple<T,[...R,0]>
+
+type Sum<T extends number,U extends number> = [...ToTuple<T>,...ToTuple<U>]['length']
+
+type GenRow<
+  T extends number[],
+  R extends number[] = [1]
+> = 
+  T extends [infer F extends number,infer S extends number,...infer L extends number[]]?
+    [Sum<F,S>] extends [infer A extends number]?
+
+      GenRow<[S,...L],[...R,A]>:never
+    :[...R,1]
+
+type Pascal<
+  N extends number, 
+  R extends number[][] = [[1]]
+> = 
+  R['length'] extends N?
+    R:
+    Pascal<N,[...R,GenRow<GetLast<R>>]>
+```
