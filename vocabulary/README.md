@@ -50,3 +50,18 @@
 * canonical constructor
 * homogenerous
 * heterogeneous
+* invariance
+* lexical scoping
+* behavior parameterization
+* intermediate operation
+* terminal operation
+* short-circuiting
+* orthogonal 正交
+* cohesion
+* high cohesion and low coupling
+* open for extension
+* closed for modification
+* Interface Segregation
+* idempotent 幂等的
+* prop drilling
+* headless component
