@@ -230,7 +230,7 @@ Optional本身可以看作是一个最多有一个值的Stream。Optional也提�
 
 ### Use High-Level Concurrency Abstractions
 
-// TODO 对兵法深入了解
+// TODO 对并法深入了解
 
 ### Speed Up Your Program
 

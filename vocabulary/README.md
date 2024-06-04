@@ -65,3 +65,7 @@
 * idempotent 幂等的
 * prop drilling
 * headless component
+* de facto standard 事实标准
+* negative indicator
+* assertion-free testing
+* deterioration 腐化

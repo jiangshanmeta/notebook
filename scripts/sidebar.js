@@ -58,5 +58,13 @@ module.exports = [
     {
         title: "Java By Comparison",
         path: "/java-by-comparison/"
+    },
+    {
+        title: "Solid Book",
+        path: "/solidbook/"
+    },
+    {
+        title: "Unit Testing",
+        path: "/unit-testing/"
     }
 ]
