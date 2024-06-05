@@ -44,3 +44,39 @@ The goal is to enable **sustainable** growth of the software project.
 * It's integrated into the development cycle
 * It targets only the most important parts of your code base ( domain model )
 * It provides maximum value with minimum maintanance costs
+
+## What is a unit test
+
+A unit test is an automated test that :
+
+* Verifies a small piece of code
+* Does it quickly
+* Does it in an isolated manner
+
+Unit Test分为两个流派：
+
+![UT School](./utSchool.png)
+
+虽然作者说classic School更为经典，但是我似乎接触的更多的是London School。
+
+London School认为Unit是指一个class，测试中要通过使用 **Test Double** 与其他类进行隔离。如果使用了真实的class在这个派别看来算是 integration test 了。
+
+Classic School认为Unit是一个具体的功能，它可能包含一个或者多个class。要分离的是 Unit Tests 而不是Units，要破除的依赖是 Shared depencency 。
+
+![Hierachy of dependencies](./dependency.png)
+
+> A shared dependency is a dependency that is shared between tests and provides
+means for those tests to affect each other’s outcome. A typical example of shared
+dependencies is a static mutable field. A change to such a field is visible across all
+unit tests running within the same process. A database is another typical example of
+a shared dependency.
+
+> A private dependency is a dependency that is not shared.
+
+E2E tests are a subset of integration integration test.
+
+E2E测试和integration测试区别更多在于用的真实dependency的多少。E2E显然更接近于生产的情况。
+
+其实我觉得这一章有点太学院派了。我更倾向于 《The Art of Unit Testing》的观点，从单元测试到E2E测试是一个dependency的mock从多到少的过程，在这条连续谱带上会有 unit test、component test、integration test、e2e isolated test 、 e2e system test 。我们的测试应该是 layered ， connect low-level and high-level tests.
+
+至于对于 mutable private dependency 的处理，一般也不会这么教条非要按照一个方式，要做trade-off, 工程是妥协的艺术。
