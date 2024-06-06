@@ -73,6 +73,8 @@ a shared dependency.
 
 > A private dependency is a dependency that is not shared.
 
+图中 **Value Object**指那些不可变的(所以还是FP好)
+
 E2E tests are a subset of integration integration test.
 
 E2E测试和integration测试区别更多在于用的真实dependency的多少。E2E显然更接近于生产的情况。
@@ -80,3 +82,45 @@ E2E测试和integration测试区别更多在于用的真实dependency的多少�
 其实我觉得这一章有点太学院派了。我更倾向于 《The Art of Unit Testing》的观点，从单元测试到E2E测试是一个dependency的mock从多到少的过程，在这条连续谱带上会有 unit test、component test、integration test、e2e isolated test 、 e2e system test 。我们的测试应该是 layered ， connect low-level and high-level tests.
 
 至于对于 mutable private dependency 的处理，一般也不会这么教条非要按照一个方式，要做trade-off, 工程是妥协的艺术。
+
+## The anatomy of a unit test
+
+这一章主要讲的是UT的Pattern
+
+### Using the AAA pattern & Droopping the arrange act and assert comments from tests
+
+Arrange Act和Assert构成一个单元测试。也有的地方称之为 Given-When-Then 。
+
+有些人为了区分这三部分，喜欢写注释。结合本书和 《Java By Comparison》的观点，这三者分割应该用空行。
+
+### Aoid multiple arrange, act and assert sections
+
+这意味着在 verify multiple units of behaviour, 更像是 integration test 。
+
+### Avoid if statements in tests
+
+这意味着一次验证太多的东西，也意味着UT里面有太多的逻辑。
+
+### Watch out for act section that are larger than a single line
+
+如果act部分多余一行，这意味着封装程度不够，要多行act才能完成一个behavior
+
+### How many assertions should the assert section hold
+
+有些人认为一个UT case应该只有一个assertion，但是我们所测的是 a unit of hehavior 而不是 a unit of code, 一个behavior会产生多个outcome (参考 The art of Unit Testing) ， 我们在一个case里对多个outcome断言是很正常的。
+
+### Resuing Test fixtures between tests
+
+> A test fixture is an object the test runs against. This object can be a regular
+dependency—an argument that is passed to the SUT. It can also be data in
+the database or a file on the hard disk. Such an object needs to remain in a
+known, fixed state before each test run, so it produces the same result.
+Hence the word fixture.
+
+本质上在UT中代码的复用，一种是 BeforeEach这种钩子方法 ， 一种是 封装独立的小函数。本书 《Java By Comparison》 《The Art of Unit Testing》都是倾向于 Standalone Tests 这种方法。这种方法一方面可以提高readability, 一方面可以更加灵活(因为独立的小函数可以传参)
+
+### Naming Convention
+
+UT的命名一个常见的做法是 ```MethodUnderTest_Senario_ExpectedResult``` ，在《The Art of Unit Testing》中表述为 USE pattern。作者倾向于 classic school，认为这种命名方式和实现太耦合，过渡描述实现的code而不是期望的behavior。
+
+在low-level的测试，比如一些utility，这些和业务关联不强的可以用这种方式。稍微high-level的应该倾向于自然语言，比如说User Story的描述。
