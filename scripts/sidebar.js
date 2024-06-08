@@ -66,5 +66,9 @@ module.exports = [
     {
         title: "Unit Testing",
         path: "/unit-testing/"
-    }
+    },
+    {
+        title: "The Art of Unit Testing",
+        path: "/the-art-of-unit-testing/"
+    },
 ]
