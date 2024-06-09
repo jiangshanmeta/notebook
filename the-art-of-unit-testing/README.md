@@ -21,3 +21,11 @@ Three types of exist points:
 > Integration testing is just unit testing with some or all of the dependencies being real and residing out of the current execution process.
 
 这个就比较倾向于 Classic School 的界定了。
+
+## A first unit test
+
+这一章简单介绍了如何使用Jest，以及几个pattern。
+
+* AAA pattern
+* USE naming pattern (这种其实更适合偏技术的底层方法的命名)
+* Factory method with test ( without any beforeEach ) ( 现在基本都倾向于独立小函数的复用方式了 )
