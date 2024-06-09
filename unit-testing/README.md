@@ -124,3 +124,38 @@ Hence the word fixture.
 UT的命名一个常见的做法是 ```MethodUnderTest_Senario_ExpectedResult``` ，在《The Art of Unit Testing》中表述为 USE pattern。作者倾向于 classic school，认为这种命名方式和实现太耦合，过渡描述实现的code而不是期望的behavior。
 
 在low-level的测试，比如一些utility，这些和业务关联不强的可以用这种方式。稍微high-level的应该倾向于自然语言，比如说User Story的描述。
+
+## The four pillars of a good unit test
+
+标题虽然是单元测试的四个支柱，其实是好测试的标准
+
+* Protection against regressions
+* Resistance to refactoring
+* Fast feedback
+* Maintainability
+
+Protection against regressions 第一条很好理解，就是能发现代码中的bug
+
+Resistance to refactoring 这一条要求我们 写UT要 Aim at the end result instead of implementation details. 测试要关心最终结果而不是实现细节。
+
+这两个指标的关系如下：
+
+![connection](./connectionBetweenFirst2.png)
+
+功能没问题但是测试有问题是假阳性，这种会阻碍我们的重构工作，在项目的后期会影响比较大。
+
+功能有问题但是测试没发现问题是假阴性，这种会造成生产bug。
+
+前三者的关系如下:
+
+![mutually exclusive](./mutuallyExclusiveOf3Pillars.png)
+
+E2E测试可以很好地发现bug，也对重构友好(因为是站在用户视角),但是运行速度非常低，而且maintainability非常差。
+
+Trivial Tests 是指没有什么复杂逻辑的代码 ，比如一些boilerplate。这类代码的测试很快，也对重构友好，但是基本找不出什么bug来。
+
+Brittle tests 是指那些比较脆弱的测试，这些对重构不友好。
+
+这四个指标中，作者认为 Resistance to refactoring 和 Maintainability 是要尽可能提升的指标。 (然而我对重构这个事理解还不够 )
+
+对于我们常见的三种测试 Unit Test、Integration Test 和 E2E Test，运行速度递减，Maintainability递减，但是 Protection against regressions 能力增强。一般是推荐 UT majority 、Integration test in the middle 、 E2E Test minority。 但是也有例外，比如CURD项目可以增加 Integration Test的比例。业务简单的话推荐减少UT比例。如果out-of-process dependency非常少，业务逻辑简单，其实可以考虑E2E测试的比例。
