@@ -159,3 +159,43 @@ Brittle tests 是指那些比较脆弱的测试，这些对重构不友好。
 这四个指标中，作者认为 Resistance to refactoring 和 Maintainability 是要尽可能提升的指标。 (然而我对重构这个事理解还不够 )
 
 对于我们常见的三种测试 Unit Test、Integration Test 和 E2E Test，运行速度递减，Maintainability递减，但是 Protection against regressions 能力增强。一般是推荐 UT majority 、Integration test in the middle 、 E2E Test minority。 但是也有例外，比如CURD项目可以增加 Integration Test的比例。业务简单的话推荐减少UT比例。如果out-of-process dependency非常少，业务逻辑简单，其实可以考虑E2E测试的比例。
+
+## Mocks and test fragility
+
+![Test Double](./testDouble.png)
+
+* Mocks help to emulate and examine outcoming interactions. These interactions
+are calls the SUT makes to its dependencies to change their state.
+* Stubs help to emulate incoming interactions. These interactions are calls the
+SUT makes to its dependencies to get input data
+
+> Don’t assert interactions with stubs
+
+我曾经犯过的一个错误是认为call stub时，stub就可以看作mock，需要对这个call断言。
+
+> A call from the SUT to a stub is not part of the end result the SUT produces. Such a call is only a means to produce the end result: a stub provides input from which the SUT then generates the output.
+
+对Stub断言本身测试的实现细节，这种耦合不利于重构，应当避免。
+
+### Observable behavior vs. implementation details
+
+Observable behavior:
+
+* Expose an operation that helps the client achieve one of its goals. An operation is
+a method that performs a calculation or incurs a side effect or both.
+* Expose a state that helps the client achieve one of its goals. State is the current
+condition of the system.
+
+简单来说就是client真正要知道的才是 Observable behivior.
+
+Observable behavior 并不完全等于 Public API， 但我们的期望是两者一致。
+
+实现中 Public API 可能范围更大，会把一些实现细节暴露出来，这就是一个常见的 Anti-Pattern : Leaking implementation details 。
+
+![Leaking Implementation Detail](./leakImplementDetail.png)
+
+这要求我们封装代码，仅暴露满足client需求的最小的行为和状态。
+
+> By making all implementation details private, you leave your tests no choice other than to verify the code’s observable behavior, which automatically improves their resistance to refactoring.
+
+// TODO 六边形架构这块需要再想想
