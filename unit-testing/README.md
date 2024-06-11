@@ -199,3 +199,17 @@ Observable behavior 并不完全等于 Public API， 但我们的期望是两者
 > By making all implementation details private, you leave your tests no choice other than to verify the code’s observable behavior, which automatically improves their resistance to refactoring.
 
 // TODO 六边形架构这块需要再想想
+
+## Styles of unit testing
+
+* Output-based testing is a style of testing where you feed an input to the SUT and check the output it produces. This style of testing assumes there are no hidden inputs or outputs, and the only result of the SUT's work is the value it returns.
+* State-based testing verifies the state of the system after an operation is completed.
+* In communication-based testing, you use mocks to verify an operation between the SUT and its collaborators.
+* The classic school of unit testing prefers the state-based style over the communication-based one. The London school has the opposite preference. Both schools use output-based testing.
+* Output-based testing tests produces tests of the highest quality. Such tests rarely couple to implementation details and thus are resistant to refactoring. They are also small concise and thus are more maintainable.
+* State-based testing requires extra prudence to avoid brittleness: you need to make sure you don't expose a private state to enable unit-testing. Because state-based tests tend to be larger than output-based tests, they are also less maintainable. Maintainability issues can sometimes be mitigated (but not eliminated) with the use if helper methods and value objects.
+* Communication-based testing also requires extra prudence to avoid brittleness. You should only verify communications that across the application boundary and whose side effects are visible to the external world. Maintainability of communication-based tests is worse compared to output-based and state-based tests. Mocks tend to occupy a lot of space, and that makes tests less readable.
+
+![Functional Architecture](./functionalArchitecture.png)
+
+函数式架构主张分为 函数式核心层 以及 可变的外壳。类似于六边形架构，但是不同的是六边形架构的Domain层可以有side effect，函数式架构把所有的side effect都放到了 mutable shell。
