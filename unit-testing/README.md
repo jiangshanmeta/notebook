@@ -213,3 +213,14 @@ Observable behavior 并不完全等于 Public API， 但我们的期望是两者
 ![Functional Architecture](./functionalArchitecture.png)
 
 函数式架构主张分为 函数式核心层 以及 可变的外壳。类似于六边形架构，但是不同的是六边形架构的Domain层可以有side effect，函数式架构把所有的side effect都放到了 mutable shell。
+
+## Refactoring toward valuable unit tests
+
+这一章其实该叫 Testable Code
+
+![4 Types of code](./typesOfCode.png)
+
+* Complex code and code that has domain significance benifit from unit testing the most because the corresponding tests have greater protection against regressions.
+* Trivial code (low complexity and domain significance, few collaborators) isn't worth testing at all.
+* Controllers (low complexity and domain significance, large number of colaborators) should be tested briefly by integration tests.
+* Overcomplicated code (high complexity or domain significance, large number of collaborators) should be split into controllers and complex code.
