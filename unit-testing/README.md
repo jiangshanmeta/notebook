@@ -224,3 +224,35 @@ Observable behavior 并不完全等于 Public API， 但我们的期望是两者
 * Trivial code (low complexity and domain significance, few collaborators) isn't worth testing at all.
 * Controllers (low complexity and domain significance, large number of colaborators) should be tested briefly by integration tests.
 * Overcomplicated code (high complexity or domain significance, large number of collaborators) should be split into controllers and complex code.
+
+## Unit testing anti-patterns
+
+### Leaking Implementation Detail (Unit testing private methods)
+
+我们的目标是 Observable behavior 和 public API 一致，但是有时 public API 范围更大，甚至是为了方便测试故意变成 public 的。
+
+有些private方法的分支很难测到，可以考虑抽象出单独的类单独测试。(本质上是不够testable)
+
+### Exposing private state
+
+和上面一条类似，私有状态也不能随意泄漏，不能为了方便测试暴露私有状态
+
+### Leaking domain knowledge to tests
+
+不要在单元测试里再实现一遍业务逻辑, 会使得UT brittle
+
+Hardcoding the expected result is a good practice when it comes to unit testing.
+
+### Code pollution
+
+Code pollution is adding production code that's only needed for testing.
+
+The problem with code pollution is that it mixes up test and production code and thereby increases the maintainance costs of the latter.
+
+### Mocking concrete classes
+
+这里其实讲的是mock一个类中某个特定方法进行测试，这意味着这个特定方法和其他方法干的不是一件事，它可以单独存在，这违背了单一职责原则，所以这个特定方法应当被抽出来。
+
+### Working with time
+
+对于时间可以考虑依赖注入的方式，抽一个inteface出来，只包含我们需要的方法。
