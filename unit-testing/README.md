@@ -171,7 +171,7 @@ SUT makes to its dependencies to get input data
 
 > Don’t assert interactions with stubs
 
-我曾经犯过的一个错误是认为call stub时，stub就可以看作mock，需要对这个call断言。
+结合 《The Art of Unit Testing》的观点，call一个API，可以单独看作一个 outgoing exist，这时候应该用mock (可以断言参数是否正确) 。这个API返回值给SUT使用，此时当作stub。当然要分成两个case单独写，不能一个case里既当stub又当mock。
 
 > A call from the SUT to a stub is not part of the end result the SUT produces. Such a call is only a means to produce the end result: a stub provides input from which the SUT then generates the output.
 

@@ -29,3 +29,13 @@ Three types of exist points:
 * AAA pattern
 * USE naming pattern (这种其实更适合偏技术的底层方法的命名)
 * Factory method with test ( without any beforeEach ) ( 现在基本都倾向于独立小函数的复用方式了 )
+
+## Breaking dependencies with stub
+
+![Dependency Type](./dependency.png)
+
+Some dependencies can be both incoming and outgoing —— in some tests they will represent exit points, and in other tests they will be used to simulate data coming into the application. These shouldn't be very common, but they do exist, such as an external API that returns a success/fail response for an outgoing message.
+
+jest 提供了mock一个module的功能，但是并不好用，代码量比较多，可维护性很差，以后库升级UT改动量也大。之前这个方法用得挺多，其实是代码本身不够testable 。对于一个在多处被使用的第三方依赖，可以考虑实现一个 adaptor 包一层，这样第三方库升级自身代码改动点就少很多。
+
+实现上我现在更倾向于依赖注入的方式，参数里加一个 interface , 写测试时直接传一个符合类型的stub即可 。在 React 中可以使用 context 实现同样的效果。
