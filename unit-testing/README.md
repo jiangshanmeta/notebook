@@ -225,6 +225,32 @@ Observable behavior 并不完全等于 Public API， 但我们的期望是两者
 * Controllers (low complexity and domain significance, large number of colaborators) should be tested briefly by integration tests.
 * Overcomplicated code (high complexity or domain significance, large number of collaborators) should be split into controllers and complex code.
 
+## Why integration testing
+
+![Role Of UT IT](./testMatrix.png)
+
+对于controller来说，如果所有的out-of-process dependency都是用mock的话，这其实就是单元测试。
+
+Check as many if the bussiness scenario's edge cases as possible with unit tests; use integration tests tp cover one happy path, as well as any edge cases that can't be covered by unit tests.
+
+It's better to not write a test at all than to write a bad test. A test that doesn't provide significant value is a bad test.
+
+controller里 fast fail的case没有必要在integration test中测试，因为意义不大。
+
+Two Types of out-of-process dependencies :
+
+* Managed dependencies。只有自己应用访问的dependency算是managed dependency，算是实现细节。比如只在一个项目使用的DB
+* Unmanaged dependencies。外部可以感知的dependency，需要mock
+
+Use real instances of managed dependencies; replace unmanaged dependencies with mocks
+
+Integration testing best practices:
+
+* Making domain model boundaries explicit
+* Reducing the number of layers
+* Eliminating circular dependencies
+* Using multiple act assertions in a test. UT不应该出现multiple acts，integration tests很少出现multiple tests。通常只有E2E测试会有multiple acts
+
 ## Unit testing anti-patterns
 
 ### Leaking Implementation Detail (Unit testing private methods)
