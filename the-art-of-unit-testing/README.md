@@ -39,3 +39,11 @@ Some dependencies can be both incoming and outgoing —— in some tests they wi
 jest 提供了mock一个module的功能，但是并不好用，代码量比较多，可维护性很差，以后库升级UT改动量也大。之前这个方法用得挺多，其实是代码本身不够testable 。对于一个在多处被使用的第三方依赖，可以考虑实现一个 adaptor 包一层，这样第三方库升级自身代码改动点就少很多。
 
 实现上我现在更倾向于依赖注入的方式，参数里加一个 interface , 写测试时直接传一个符合类型的stub即可 。在 React 中可以使用 context 实现同样的效果。
+
+## Interaction testing using mock objects
+
+Interaction testing is a way to check how a unit of work interacts with its outgoing dependencies: what calls were made and with which parameters. Interaction testing relates to the third type of exit points: a third-party module, object or system.
+
+To do interaction testing, you should use mocks, which are test doubles that replace outgoing dependencies.
+
+Partial mock在我的理解中其实是个 anti-pattern, 反映了代码设计违背了单一职责原则。应该依据 interface-segregation principle 拆分接口。利用继承实现partial mock只是掩盖了代码中的问题。这个问题在 《Unit Testing Principles, Patterns and Practices》也有提及。
