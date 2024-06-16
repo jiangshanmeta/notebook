@@ -47,3 +47,9 @@ Interaction testing is a way to check how a unit of work interacts with its outg
 To do interaction testing, you should use mocks, which are test doubles that replace outgoing dependencies.
 
 Partial mock在我的理解中其实是个 anti-pattern, 反映了代码设计违背了单一职责原则。应该依据 interface-segregation principle 拆分接口。利用继承实现partial mock只是掩盖了代码中的问题。这个问题在 《Unit Testing Principles, Patterns and Practices》也有提及。
+
+## Isolation frameworks
+
+Isolation frameworks can replace whole modules, but try to abstract away direct dependencies and fake those abstractions instead. This will help you reduce the amount of refactoring needed when the module's API changes.
+
+It's important to lean toward return-value or state-based testing as opposed to interaction testing when you can ( functional architecture ), so that your tests assume as little as possible about internal implementation implementation details.
