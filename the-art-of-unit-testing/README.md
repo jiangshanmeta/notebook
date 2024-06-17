@@ -53,3 +53,5 @@ Partial mock在我的理解中其实是个 anti-pattern, 反映了代码设计�
 Isolation frameworks can replace whole modules, but try to abstract away direct dependencies and fake those abstractions instead. This will help you reduce the amount of refactoring needed when the module's API changes.
 
 It's important to lean toward return-value or state-based testing as opposed to interaction testing when you can ( functional architecture ), so that your tests assume as little as possible about internal implementation implementation details.
+
+本章作者提到了 一个测试只要一个mock。这里作者比较London class了，他认为这样 separation of concerns, 提高maintainability  。按照 《Unit Testing Principles, Patterns and Practices》的说法，classic class倾向于多个mock，因为测的是 unit of behavior， 当然可以有多个outcome。

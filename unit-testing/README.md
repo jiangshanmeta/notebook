@@ -251,6 +251,15 @@ Integration testing best practices:
 * Eliminating circular dependencies
 * Using multiple act assertions in a test. UT不应该出现multiple acts，integration tests很少出现multiple tests。通常只有E2E测试会有multiple acts
 
+## Mocking best practices
+
+* applying mocks to unmanaged dependencies only
+* Verifying the interactions with those dependencies at the very edges of your system (这样覆盖的代码最多，提高找到bug的机会， 而且更接近于和外部系统的真实交互，对重构友好 ) ( 这个系统边缘是对外部系统的封装，隐藏了一些和外部系统的交互细节，也有一定的代码量在里面 ) ( 对于不是那么重要的信息，可以选择mock离边界稍微远一点的节点mock )
+* Using mocks in integration tests only, not in unit tests (其实我倾向于模糊UT和integration test的界限)
+* Always verifying the number of calls made to the mock
+* Mocking only types that you own ( 对于第三方库，可以加一层 adaptor 作为 anti-corruption layer, 这样方便以后升级依赖版本，提供友好的API，并且抽象出底层库的复杂性)
+* Not just one mock per test ( 一个behavior可以有多个依赖，所以需要多个mock可assert )
+
 ## Unit testing anti-patterns
 
 ### Leaking Implementation Detail (Unit testing private methods)
