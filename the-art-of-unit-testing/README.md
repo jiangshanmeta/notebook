@@ -55,3 +55,17 @@ Isolation frameworks can replace whole modules, but try to abstract away direct 
 It's important to lean toward return-value or state-based testing as opposed to interaction testing when you can ( functional architecture ), so that your tests assume as little as possible about internal implementation implementation details.
 
 本章作者提到了 一个测试只要一个mock。这里作者比较London class了，他认为这样 separation of concerns, 提高maintainability  。按照 《Unit Testing Principles, Patterns and Practices》的说法，classic class倾向于多个mock，因为测的是 unit of behavior， 当然可以有多个outcome。
+
+## Unit testing asynchronous code
+
+这章比较有用的是针对异步代码重构，使代码testable
+
+我比较喜欢 extracting an adaptor 这种方式，把异步代码抽离除去，作为依赖注于进来。这样我们测试代码就可以mock异步部分，方便测试。
+
+文中依然提出了 modular functional 和 object-oriented 三种方式，我现在更倾向于 object-oriented这种方式。
+
+## Trustworthy tests
+
+这一章提出了好的测试的一个基础： trustworthy 。 对应 《Unit Testing Principles, Patterns and Practices》中的 protection against regressions 和 resistance to refactoring。
+
+Avoid logic in unit testing。单元测试里推荐使用 hardcoded expected value ， 避免 leaking domain knowledge . 也要避免if else，保证maintainability
