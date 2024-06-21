@@ -79,3 +79,20 @@ Avoid logic in unit testing。单元测试里推荐使用 hardcoded expected val
 * Avoid setup ( using helper function ) ( readability, flexible )
 * Use parameterized tests to remove duplication
 * Avoid overspecification. An overspecified test is one that contains assumptions about how a specific unit under test should implement its internal behavior, instead of only checking that the observable behavior is correct. ( 这个其实更多的是 resistance to refactoring 不过也影响maintainability 因为一旦有接口变更会改动很多 )
+
+## Readability
+
+* When naming a test, including the name of the unit of work under test, the current test scenario, and the expected bahavior of the unit of work. ( 然而这个命名方式更适合low-level的code )
+* Don't leave magic values in your tests. Either wrap them in variables with meaningful names, or put the description into the value itself if it's a string.
+* Separate assertions from actions. ( 其实简单code可以一行流 )
+* Try not to use test setups at all (such as beforeEach methods). Introduce helper methods to simplify the test's arrange part, and use those helper mothods in each test.
+
+## Monkey-patching functions and modules
+
+虽说这是附录，但是针对jest项目非常重要，也是对于书中 module injection 这个方案的补充。
+
+jest提供的mock 和 spyOn 方法都是 monkey-patching , 前者主要用于 module， 后者主要用于对象。虽然我在项目中用了不少，但其实使用体验并不好，有很多trick的地方。
+
+对于 module injection 这个重构方案，倾向于舍弃，按照 object-oritented 的 DI 来写比较好。
+
+至于 function injection ， 需要再深入看 functional design 再做评价。
