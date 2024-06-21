@@ -69,3 +69,13 @@ It's important to lean toward return-value or state-based testing as opposed to 
 这一章提出了好的测试的一个基础： trustworthy 。 对应 《Unit Testing Principles, Patterns and Practices》中的 protection against regressions 和 resistance to refactoring。
 
 Avoid logic in unit testing。单元测试里推荐使用 hardcoded expected value ， 避免 leaking domain knowledge . 也要避免if else，保证maintainability
+
+## Maintainability
+
+* Factory function decouple creation of object under test
+* Tests should be run isolated from each other ( Don't use singleton design pattern )
+* Avoid testing private or protected methods
+* Keep tests DRY ( using  helper function )
+* Avoid setup ( using helper function ) ( readability, flexible )
+* Use parameterized tests to remove duplication
+* Avoid overspecification. An overspecified test is one that contains assumptions about how a specific unit under test should implement its internal behavior, instead of only checking that the observable behavior is correct. ( 这个其实更多的是 resistance to refactoring 不过也影响maintainability 因为一旦有接口变更会改动很多 )
