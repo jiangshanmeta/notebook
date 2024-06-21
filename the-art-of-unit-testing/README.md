@@ -91,7 +91,7 @@ Avoid logic in unit testing。单元测试里推荐使用 hardcoded expected val
 
 ![Test Level](./testLevel.png)
 
-这里作者讲对于testing strategy 得不是很清楚, 推荐去看  [《Unit Testing Principles, Patterns and Practices》](https://jiangshanmeta.github.io/notebook/assets/img/testMatrix.4b36f78f.png)
+这里作者讲对于testing strategy 得不是很清楚, 推荐去看  [《Unit Testing Principles, Patterns and Practices》](https://jiangshanmeta.github.io/notebook/unit-testing/#why-integration-testing)
 
 ## Monkey-patching functions and modules
 
