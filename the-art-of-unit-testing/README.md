@@ -87,6 +87,12 @@ Avoid logic in unit testing。单元测试里推荐使用 hardcoded expected val
 * Separate assertions from actions. ( 其实简单code可以一行流 )
 * Try not to use test setups at all (such as beforeEach methods). Introduce helper methods to simplify the test's arrange part, and use those helper mothods in each test.
 
+## Developing a testing strategy
+
+![Test Level](./testLevel.png)
+
+这里作者讲对于testing strategy 得不是很清楚, 推荐去看  [《Unit Testing Principles, Patterns and Practices》](https://jiangshanmeta.github.io/notebook/assets/img/testMatrix.4b36f78f.png)
+
 ## Monkey-patching functions and modules
 
 虽说这是附录，但是针对jest项目非常重要，也是对于书中 module injection 这个方案的补充。
