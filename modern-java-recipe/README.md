@@ -89,3 +89,51 @@ public final <T> Set<T> createImmutableSet(T... elements){
 ```
 
 * Implementing the Collector Interface
+
+## Issues with Streams, Lambdas, and Method References
+
+* The java.util.Objects Class ( some useful utility method)
+  * requireNotNull
+  * isNull
+  * nonNull
+* Lambdas and Effectively Final
+* Streams of Random Numbers ( Use the static ints, longs and doubles methods in java.util.Random )
+* Default Methods in Map
+  * computeIfAbsent
+  * computeIfPresent
+  * forEach
+  * getOrDefault
+  * merge
+  * putIfAbsent
+  * remove
+  * replace
+  * replaceAll
+* Default Method Conflict
+  * In any conflict between a method in a class and a default method in an interface, the class always wins.
+  * If the conflict comes between two interfaces where one is a descendant of the other, then the descendant wins, the same way they do in classes
+  * If there is no inheritance relationship between the two defaults, the class will not compile
+* Iterating Over Collections and Maps ( forEach method )
+* Logging with a Supplier
+* Closure Composition
+  * compose in Function
+  * andThen in Function
+  * andThen in Consumer
+  * and in Predicate
+  * or in Predicate
+  * negate in Predicate
+
+## The Optional Type
+
+* Creating an Optional
+  * Optional.empty
+  * Optional.of
+  * Optional.ofNullable
+* Retrieving Values from an Optional
+  * get
+  * ifPresent
+  * orElse
+  * orElseGet
+  * orElseThrow
+* Optional in Getters and Setters ( wrap the result of getter methods in Optionals, but don't do the same for setters ) ( not follow javabean convention )
+* Optional flatMap Versus map ( use flatMap to avoid wrapping an Optional inside another Optional )
+* Mapping Optional ( map and stream )
