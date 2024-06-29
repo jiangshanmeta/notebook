@@ -164,3 +164,59 @@ String textNow = now.format(DateTimeFormatter.ISO_DATE_TIME);
 
 LocalDateTime dateTime = LocalDateTime.parse(textNow,DateTimeFormatter.ISO_DATE_TIME);
 ```
+
+## Parallelism and Concurrency
+
+Concurrency is when multiple tasks can run in overlapping time periods
+
+Parallelism is when multiple tasks run at literally the same time
+
+* Converting from Sequential to Parallel Streams
+
+```java
+List<Integer> numbers = Arrays.asList(1,3,5,7,9);
+
+boolean isParallel = numbers.parallelStream().isParallel();
+boolean alsoIsParallel = numbers.stream().parallel().isParallel();
+```
+
+* WWhen Parallel helps
+  * A large amount of data , or
+  * A time-consuming process for each element, and
+  * A source of data that is easy to divide  ( LinkedList, Stream.iterate are hard to split ) , and
+  * Operations that are stateless and associative ( order doesn't matter )
+* The Future Interface
+
+```java
+ExecutorService service = Executors.newCachedThreadPool();
+
+Future<String> future = service.submit(()->{
+    Thread.sleep(1000);
+    return "Hello World";
+});
+
+System.out.println("processing");
+
+try{
+    if(!future.isCancelled()){
+        System.out.println(future.get()); // blocking call
+    }else{
+        System.out.println("Cancelled");
+    }
+}catch (InterruptedException | ExecutionException e){
+    e.printStackTrace();
+}
+```
+
+* Completing a CompletableFuture
+
+```java
+CompletableFuture<String> future1 = new CompletableFuture<>();
+future1.complete("str1");
+
+CompletableFuture<String> future2 = CompletableFuture.completedFuture("str2"); // like Promise.resolve
+
+CompletableFuture<String> future3 = CompletableFuture.supplyAsync(()->"str3"); // like new Promise((resolve)=>resolve("str3"))
+```
+
+* Coodinating CompletableFutures ( use thenApply thenCompose thenRun to trigger another action ater completion of one Future  )
