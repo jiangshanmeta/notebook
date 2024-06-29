@@ -137,3 +137,30 @@ public final <T> Set<T> createImmutableSet(T... elements){
 * Optional in Getters and Setters ( wrap the result of getter methods in Optionals, but don't do the same for setters ) ( not follow javabean convention )
 * Optional flatMap Versus map ( use flatMap to avoid wrapping an Optional inside another Optional )
 * Mapping Optional ( map and stream )
+
+## File I/O
+
+* Process Files ( use the static lines method in java.nio.file.Files to return the contents of a file as a stream )
+* Retrieving Files as a Stream ( Use the static Files.list method to return Path as a stream )
+* Walking the Filesystem ( use the static Files.walk to perform a depth-first traversal of the filesystem )
+* Searching the Filesystem ( use the static Files.find method )
+
+## The java.time Package
+
+* Using the Basic Date-Time Classes
+  * Instant
+  * Duration
+  * Period
+  * LocalDate
+  * LocalTime
+  * LocalDateTime
+  * ZonedDateTime
+* Creating Dates and Times from Existing Instances (use plus minus with method )
+* Parsing and Formatting ( DateTimeFormatter )
+
+```java
+LocalDateTime now = LocalDateTime.now();
+String textNow = now.format(DateTimeFormatter.ISO_DATE_TIME);
+
+LocalDateTime dateTime = LocalDateTime.parse(textNow,DateTimeFormatter.ISO_DATE_TIME);
+```
