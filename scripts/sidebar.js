@@ -74,5 +74,9 @@ module.exports = [
     {
         title: "Modern Java Recipes",
         path: "/modern-java-recipe/"
+    },
+    {
+        title: "Fluent React",
+        path: "/fluent-react/"
     }
 ]
