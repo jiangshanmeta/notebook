@@ -78,5 +78,9 @@ module.exports = [
     {
         title: "Fluent React",
         path: "/fluent-react/"
+    },
+    {
+        title: "Advanced React",
+        path: "/advanced-react/"
     }
 ]
