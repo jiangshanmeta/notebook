@@ -122,3 +122,28 @@ const ScrollDetector = ({ children }: ScrollDetectorProps) => {
   );
 };
 ```
+
+## Memorization with useMemo useCallback and React.memo
+
+* Memorizing props on a component makes sense only when:
+  * This component is wrapped in React.memo
+  * This component uses those props as dependencies in any of the hooks
+  * This component passes those props down to other components and they have either of the situations from above
+* If a component is wrapped in React.memo and its re-render is triggered by its parent, then React will not re-render this component if its props havn't changed. In any other case, re-render will proceed as usual.
+* Memorizing all props on a component wrapped in React.memo is harder than it seems. Avoid passing non-primitive values that are coming from other props or hooks to it.
+* When memorizing props, remember that "children" is also a non-primitive prop that need to be memorized.
+
+```tsx
+const Component1 = ()=>{
+    const content = useMemo(()=> <div>children content</div>,[] );
+    return <MemoChild>{content}</MemoChild>
+}
+const Component2 = ()=>{
+    const contentfn = useCallback(()=><div>render props content</div>,[]);
+    return <MemoChild>{contentfn}</MemoChild>
+}
+```
+
+React.memo 过于脆弱，相关的 props (包括children)都要缓存起来才能避免不必要的re-render.
+
+在以往的实践中， useMemo useCallback有滥用的倾向。在很少使用React.memo这个大前提下，这两个主要应该服务于 作为其他 hook的dep的一部分，这时候缓存才有意义，尤其是useCallback。useMemo还可以argue是为了缓存 expensive calculations ，然而前端的计算大部分算不上昂贵。
