@@ -35,3 +35,54 @@ Passing components as props can improve the performance.
 * Re-render is just React calling the Component's function.
 * A component re-renders when its element object changes, as determined by ```Object.is``` comparison of it before and after re-render.
 * When element are passed as props to a component, and this component triggers a re-render through a state update , elements that are passed as props won't re-render.
+
+## Configuration concerns with elements as props
+
+Components as Props Pattern 是 separation of concerns 的一种体现
+
+### Conditional rendering and performance
+
+```tsx
+const App = ()=>{
+    const [isOpen,setIsOpen] = useState(false);
+    // Footer component will get involked after the isOpen is set to true
+    const footer = <Footer />;
+
+    return isOpen ? (
+        <ModalDialog footer={footer} />
+    ) : null;
+}
+```
+
+If a component that has elements as props is rendered conditionally, then even if those elements are created outside of the condition, they will only be rendered when the conditional component is rendered.
+
+### Default values for the elements from props
+
+[Demo](https://www.advanced-react.com/examples/03/05)
+
+```tsx
+type ButtonProps = {
+  icon: ReactElement;
+  size?: 'large' | 'normal';
+  appearance?: 'primary' | 'secondary';
+};
+const Button = ({ icon, size = 'normal', appearance = 'primary' }: ButtonProps) => {
+  // create default props
+  const defaultIconProps = {
+    size: size === 'large' ? 'large' : 'medium',
+    color: appearance === 'primary' ? 'white' : 'black',
+  };
+  const newProps = {
+    ...defaultIconProps,
+    // make sure that props that are coming from the icon override default if they exist
+    ...icon.props,
+  };
+
+  // clone the icon and assign new props to it
+  const clonedIcon = React.cloneElement(icon, newProps);
+
+  return <button className={`button ${appearance}`}>Submit {clonedIcon}</button>;
+};
+```
+
+基于cloneElement方法添加一些props。当然这个API现在已经不推荐使用了
