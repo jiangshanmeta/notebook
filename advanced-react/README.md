@@ -86,3 +86,39 @@ const Button = ({ icon, size = 'normal', appearance = 'primary' }: ButtonProps) 
 ```
 
 基于cloneElement方法添加一些props。当然这个API现在已经不推荐使用了
+
+## Advanced configuration with render props
+
+* Render props were very useful when we needed to share stateful logic between components without lifting it up.
+* But hooks replaced that use case in 99% of cases.
+* Render props for sharing stateful logic and data can still be useful even today, for example, when this logic is attached to a DOM element.
+
+```tsx
+type ScrollDetectorProps = {
+  children: (width: number) => ReactElement;
+};
+
+const ScrollDetector = ({ children }: ScrollDetectorProps) => {
+  const [scroll, setScroll] = useState(0);
+    // DOM related
+  return (
+    <div className="scrollable-block" onScroll={(e) => setScroll(e.currentTarget?.scrollTop)}>
+      {children(scroll)}
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
+  );
+};
+```
