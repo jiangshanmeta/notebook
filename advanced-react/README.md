@@ -147,3 +147,11 @@ const Component2 = ()=>{
 React.memo 过于脆弱，相关的 props (包括children)都要缓存起来才能避免不必要的re-render.
 
 在以往的实践中， useMemo useCallback有滥用的倾向。在很少使用React.memo这个大前提下，这两个主要应该服务于 作为其他 hook的dep的一部分，这时候缓存才有意义，尤其是useCallback。useMemo还可以argue是为了缓存 expensive calculations ，然而前端的计算大部分算不上昂贵。
+
+## Deep dive into diffing and reconciliation
+
+* React will compare elements between re-renders with elements in the same place in the returned array on any level of hierarchy.
+* If the type of the elements and its position in the array is the same, React will re-render that element. If the type changes at that position, then React will unmount the previous component and mount the new one.
+* If the array is dynamic, then React can't reliably identify those elements between re-renders. So we use the key attribute to help it. This is important when the array can change the number of its item or their position between re-renders, and especially important if those elements are wrapped in React.memo
+* We can use the key outside of dynamic arrays as well to force React to recognize elements at the same position in the array with the same type as different, or to force it to recognize elements at different positions with the same type as the same.
+* We can also force unmounting of a component with a key if that key changes between re-renders based on some information. This is sometimes called "state reset".
