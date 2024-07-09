@@ -155,3 +155,9 @@ React.memo 过于脆弱，相关的 props (包括children)都要缓存起来才�
 * If the array is dynamic, then React can't reliably identify those elements between re-renders. So we use the key attribute to help it. This is important when the array can change the number of its item or their position between re-renders, and especially important if those elements are wrapped in React.memo
 * We can use the key outside of dynamic arrays as well to force React to recognize elements at the same position in the array with the same type as different, or to force it to recognize elements at different positions with the same type as the same.
 * We can also force unmounting of a component with a key if that key changes between re-renders based on some information. This is sometimes called "state reset".
+
+## HOC in modern world
+
+A higher-order component is just a function that accepts a component as an argument and returns a new component. That new component renders the component from the argument.
+
+其实我觉得这一章作者举的例子有点牵强了
