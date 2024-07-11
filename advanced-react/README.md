@@ -161,3 +161,116 @@ React.memo 过于脆弱，相关的 props (包括children)都要缓存起来才�
 A higher-order component is just a function that accepts a component as an argument and returns a new component. That new component renders the component from the argument.
 
 其实我觉得这一章作者举的例子有点牵强了
+
+## React Context and Performance
+
+通过这一章我发现我之前使用 Context 的方式是非常不 performant 的。
+
+我之前的使用方式是这样的:
+
+```tsx
+const Component = ()=>{
+    const [state,setState] = useState({name:"jiangshanmeta"});
+
+    return (
+        <Context.Provider value={{state,setState}}>
+            <ChildComponent/>
+        </Context.Provider>
+    )
+}
+```
+
+这种使用方式只解决了 Props drilling 问题，但是一旦调用 context 注入的 setState方法, trigger re-render, Component 组件会 re-render, 进而 ChildComponent 组件会 re-render。同时注意到 Provider 的 value 也会变化 (因为是一个新的对象), ChildComponent中使用这个Context的组件都会re-render，即使使用了 React.memo 进行了优化。
+
+我们首先可以基于 **Components as Props Pattern** 进行优化：
+
+```tsx
+const ContextController = ({children})=>{
+    const [state,setState] = useState({name:"jiangshanmeta"});
+
+    return (
+        <Context.Provider value={{state,setState}}>
+            {children}
+        </Context.Provider>
+    );
+}
+```
+
+ContextController 组件负责维护状态，通过 Component as Props Pattern 把需要从context中拿数据的组件注入进来。这样ContextController因为自身状态更新造成的re-render不会导致 children 变化，减少了一部分不必要的 re-render。但是children使用到这个context的组件都会强制re-render，进行数据更新。这样就会实现下图中的效果。
+
+![Context Optimization](./Context.png)
+
+注意这里的 value 变化会有以下后果:
+
+* Context consumers will re-render when the value on the Provider changes.
+* All of them will re-render, even if they don't use the part of the value that actually changed.
+* Those re-renders can't be prevented with memorization (easily).
+
+如何减少第一条value change，最简单的就是使用useMemo/useCallback
+
+```tsx
+const ContextController = ({children})=>{
+    const [state,setState] = useState({name:"jiangshanmeta"});
+    const value = useMemo(()=>{
+        return {
+            state,
+            setState
+        }
+    },[state,setState])
+
+    return (
+        <Context.Provider value={value}>
+            {children}
+        </Context.Provider>
+    );
+}
+```
+
+这样防止因为父组件 re-render 造成这里的 ContextController re-render，进而造成 Provider的value变化，进而导致大范围的re-render. ( 这里是默认使用 useMemo/useCallback 不会引起提早优化的例子 )
+
+如何减少不关心的数据引起的变化呢，可以使用 **Split Provider** 这种模式：
+
+```tsx
+const ContextData = React.createContext({ isNavExpanded: false });
+
+const ContextApi = React.createContext({ open: () => {}, close: () => {} });
+
+const ContextController = ({ children }: { children: ReactNode }) => {
+  const [isNavExpanded, setIsNavExpanded] = useState(false);
+
+  const open = useCallback(() => setIsNavExpanded(true), []);
+
+  const close = useCallback(() => setIsNavExpanded(false), []);
+
+  const data = useMemo(() => ({ isNavExpanded }), [isNavExpanded]);
+
+  const api = useMemo(() => ({ open, close }), [close, open]);
+
+  return (
+    <ContextData.Provider value={data}>
+      <ContextApi.Provider value={api}>{children}</ContextApi.Provider>
+    </ContextData.Provider>
+  );
+};
+```
+
+上面这个例子也可以看作 Command Query Responsibility Segregation ( CQRS ) 的一个体现。
+
+再复杂一点的场景， command 需要基于当前的数据进行操作，虽然 setState可以传入callback，但是仅能获取其中的一个值。如果 command 依赖多个当前的state，可以考虑使用useReducer。
+
+最后一个问题，Context会使得 React.memo 缓存失效，优化思路是要缓存的Component不要直接使用 useContext，通过父组件传递下来需要从context获取的值。这样可以尽可能保证只在需要的属性变化的时候re-render。
+
+通用的实现可以使用HOC
+
+```tsx
+// HOC
+const withNavigationOpen = (AnyComponent)=>{
+    const Memo = React.memo(AnyComponent)
+
+    return (props)=>{
+        const {open} = useContext(Context);
+
+        return <Memo  {...props} open={open} />
+    }
+}
+```
