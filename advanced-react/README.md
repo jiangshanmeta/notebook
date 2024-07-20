@@ -274,3 +274,36 @@ const withNavigationOpen = (AnyComponent)=>{
     }
 }
 ```
+
+## Refs: from storing data to imperative API
+
+* A Ref is just a mutable object that can store any value. That value will be preserved between re-renders.
+* A Ref's update doesn't trigger re-renders and is synchronous.
+* We can assign a Ref to a DOM element via the ```ref``` attribute. After that element is rendered, we'll see that element in the ```ref.current``` property.
+* We can pass Refs as a regular props to any component.
+* If we want to pass it as the actual ref prop, we need to wrap that component in ```forwardRef```. Otherwise, it won't work in functional components. The second argument of that component will be the ref itself, which we then need to pass down to the desired DOM element.
+* We can hide the implementation details of a component and expose its public API with the ```useImperativeHandle``` hook.
+
+父组件传递ref下来，子组件再传递给DOM节点，本身是**leaking implementation detail**, 我们可以通过 ```useImperativeHandle``` 来暴露出外界需要的API，隐藏实现细节。当然，既然ref是一个可变的对象，我们也可以直接操作这个对象
+
+```tsx
+type Api = {
+  focus: () => void;
+  shake: () => void;
+};
+
+type InputFieldProps = {
+  apiRef: MutableRefObject<Api>;
+};
+
+const InputField = ({ apiRef }: InputFieldProps) => {
+  apiRef.current = {
+    focus:()=>{},
+    shake:()=>{}
+  }
+
+  return null;
+}
+```
+
+这样也可以实现和useImperativeHandle同样的效果
