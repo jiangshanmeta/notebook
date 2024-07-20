@@ -307,3 +307,9 @@ const InputField = ({ apiRef }: InputFieldProps) => {
 ```
 
 这样也可以实现和useImperativeHandle同样的效果
+
+## Closures in React
+
+可以直接看ahooks的useMemoizedFn的实现
+
+[useMemoizedFn](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useMemoizedFn/index.ts)
