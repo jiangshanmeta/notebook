@@ -313,3 +313,42 @@ const InputField = ({ apiRef }: InputFieldProps) => {
 可以直接看ahooks的useMemoizedFn的实现
 
 [useMemoizedFn](https://github.com/alibaba/hooks/blob/master/packages/hooks/src/useMemoizedFn/index.ts)
+
+## Implementing advanced debouncing and throttling with Refs
+
+```typescript
+const useDebounce = (callback: () => void) => {
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    ref.current = callback;
+  }, [callback]);
+
+  const debouncedCallback = useMemo(() => {
+    const func = () => {
+      ref.current?.();
+    };
+
+    return debounce(func, 1000);
+  }, []);
+
+  return debouncedCallback;
+};
+```
+
+参考 useMemoizedFn 的实现，也可以这么写：
+
+```typescript
+const useDebounce = <T extends (...args:any)=>any >(callback: T )=>{
+  const fnRef = useRef<T>(callback);
+  // // https://github.com/alibaba/hooks/issues/728
+  fnRef.current = useMemo<T>(() => fn, [fn]);
+
+  const debouncedFn = useRef<T>();
+
+  if(!debouncedFn.current){
+    debouncedFn.current = debounce((...args)=>fnRef.current(...args),1000)
+  }
+  return debouncedFn.current as T;
+}
+```
