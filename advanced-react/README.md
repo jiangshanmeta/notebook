@@ -365,3 +365,10 @@ const useDebounce = <T extends (...args:any)=>any >(callback: T )=>{
 useEffect is not guaranteed to run asynchronously. While react will try to optimize it as much as possible, there are cases when it can run before the browser paint and block it as a result. One of those cases is when you already have useLayoutEffect somewhere in the chain of updates.
 
 The thing is, React runs re-renders in "snapshots" or cycles. Every re-render cycle will look something like this, in this order: "State update triggered ->  useLayoutEffect triggered ->  useEffect triggered ". If any of these triggers a state update, it will start another re-render cycle. But before doing that, React needs to finish the cycle that initiated the state update. So useEffect has to run before the new cycle starts. So if the state update is triggered inside useLayoutEffect, which is synchronous, React has no choice but to run useEffect synchronously as well.
+
+## React portals and why do we need them
+
+* Protals allow you to easily render some elements, like modal dialogs, outside of their current DOM position so that the Stacking Context doesn't trap them.
+* When using Portals, the rules are:
+  * What happens in React stays within the React hierachy. ( like lifecycle, re-renders, Context )
+  * What happens outside of React follows DOM structure rules.
