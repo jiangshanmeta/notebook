@@ -352,3 +352,16 @@ const useDebounce = <T extends (...args:any)=>any >(callback: T )=>{
   return debouncedFn.current as T;
 }
 ```
+
+## Escaping Flickering UI with useLayoutEffect
+
+* useEffect is normally run asynchronously. Asynchronous code is a separate task from the browser's perspective.
+* useLayoutEffect hook is run synchronously. From the browser's perspective, it will be one large, unbreakable task. So the browser will wait and will not paint anything until the task is complete and the final dimensions are calculated.
+
+![useLayoutEffect one task](./useLayoutEffect.png)
+
+![useEffect separate task](./useEffect.png)
+
+useEffect is not guaranteed to run asynchronously. While react will try to optimize it as much as possible, there are cases when it can run before the browser paint and block it as a result. One of those cases is when you already have useLayoutEffect somewhere in the chain of updates.
+
+The thing is, React runs re-renders in "snapshots" or cycles. Every re-render cycle will look something like this, in this order: "State update triggered ->  useLayoutEffect triggered ->  useEffect triggered ". If any of these triggers a state update, it will start another re-render cycle. But before doing that, React needs to finish the cycle that initiated the state update. So useEffect has to run before the new cycle starts. So if the state update is triggered inside useLayoutEffect, which is synchronous, React has no choice but to run useEffect synchronously as well.
