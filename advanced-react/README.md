@@ -372,3 +372,23 @@ The thing is, React runs re-renders in "snapshots" or cycles. Every re-render cy
 * When using Portals, the rules are:
   * What happens in React stays within the React hierachy. ( like lifecycle, re-renders, Context )
   * What happens outside of React follows DOM structure rules.
+
+## Data fetching on the client and performance
+
+有点启发的一个是 和 context 以及 components as props 结合
+
+```tsx
+const Provider = ({children})=>{
+  const [data,setData] = useState();
+
+  useEffect(()=>{
+    // fetch and update state
+  },[]);
+
+  return <Context.Provider>{children}</Context.Provider>
+}
+```
+
+这样可以在比较高的层级上触发请求，而不需要等待具体的 consumer 组件 render 然后fetch。
+
+还一个是可以脱离react的生命周期进行 pre-fetch，react内部只需要拿promise然后同步内部状态即可。
