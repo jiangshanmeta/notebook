@@ -392,3 +392,51 @@ const Provider = ({children})=>{
 这样可以在比较高的层级上触发请求，而不需要等待具体的 consumer 组件 render 然后fetch。
 
 还一个是可以脱离react的生命周期进行 pre-fetch，react内部只需要拿promise然后同步内部状态即可。
+
+## Data fetching and race conditions
+
+这一章主要讲 由于组件状态更新 promise resolve的值不再不要时该怎么办。
+
+最简单的做法，强制re-mount这个组件，过于简单粗暴。
+
+可以利用ref保存一些信息：
+
+```tsx
+const Component = ({id})=>{
+  const ref = useRef(id);
+  const [localData,setLocalData] = useState()
+
+  useEffect(()=>{
+    const reqId = id;
+    ref.current = id;
+
+    fetch('url').then((res)=>res.json()).then((data)=>{
+      if(reqId === ref.current){
+        setLocalData(data)
+      }
+    })
+
+  },[id]);
+}
+```
+
+ref也可以维护一个自增ID
+
+基于useffect可以返回一个函数，我们可以添加一个标记位表明当前请求可以drop
+
+```tsx
+const Component = ({id})=>{
+
+  useEffect(()=>{
+    let isActive = true;
+    // fetch data
+    return ()=>{
+      isActive = false
+    }
+
+  },[id])
+
+}
+```
+
+也可以和[AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)结合
