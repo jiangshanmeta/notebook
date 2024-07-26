@@ -1,5 +1,35 @@
 # [Fluent React](https://book.douban.com/subject/36677814/)
 
+## JSX
+
+Benefits of JSX:
+
+* Easier to read and write
+* Improved security
+* Strong typing
+* Encourages component-based architecture
+* Widely used
+
+Drawbacks of JSX:
+
+* Learning curve
+* Requires tooling
+* Mixing of concerns
+* Partial JavaScript compatibility
+
+## The Virtual DOM
+
+Diff Algorithm:
+
+* If the nodes at the root level of the two trees are different, React will replace the entire tree with the new one.
+* If the nodes at the root level are the same, React will update the attributes of the node if they have changed.
+* If the children of a node are different, React will update only the children that have changed. React does not re-create the entire subtree; it only updates the nodes that have changed.
+* If the children of a node are the same, but their order has changed, React will reorder the nodes in the read DOM without re-creating them.
+* If a node is removed from the tree, React will remove it from the real DOM.
+* If a new node has been added to the tree, React will add it to the real DOM.
+* If a node's type has changed, React will remove the old node and create a new node of the new type.
+* If the node has a key prop, React use it to know if it should replace the node or not. It can be useful when you need to reset the state of the components (force mount).
+
 ## Common Questions and Powerful Patterns
 
 这一章介绍了React提供的几个优化API和Patterns
