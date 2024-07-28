@@ -30,6 +30,14 @@ Diff Algorithm:
 * If a node's type has changed, React will remove the old node and create a new node of the new type.
 * If the node has a key prop, React use it to know if it should replace the node or not. It can be useful when you need to reset the state of the components (force mount).
 
+## Inside Reconciliation
+
+[React Reconciliation](https://www.geeksforgeeks.org/reactjs-reconciliation/)
+
+Fiber reconciliation happens in two phases: the render phase and the commit phase. This two-phase approach allows React to do rendering work that can be disposed of at any time before committing it to the DOM and showing a new state to users: it makes rendering interuptible.
+
+![Reconciliation Flow](./ReconciliationFlow.png)
+
 ## Common Questions and Powerful Patterns
 
 这一章介绍了React提供的几个优化API和Patterns
