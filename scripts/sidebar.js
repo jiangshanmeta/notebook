@@ -82,5 +82,9 @@ module.exports = [
     {
         title: "Advanced React",
         path: "/advanced-react/"
+    },
+    {
+        title: "A Functional Approach to Java",
+        path: "/functional-approach-to-java/"
     }
 ]
