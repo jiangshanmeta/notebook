@@ -45,3 +45,10 @@ Lazy evaluation is an evaluation strategy that delays the evaluation of an expre
 * Safer concurrency
 * Modularity
 * Testability
+
+## Functional Java
+
+* Functional interface are concrete types and representations of Java lambdas
+* Lambda expressions are not syntactic sugar to anonymous classes
+* Outside variables need to be effectively final to be used in lambdas, but this makes only the references immutable, not the undelying data structure.
+* Method references are a concise altenative for matching method signatures and lambda definitions.
