@@ -52,3 +52,24 @@ Lazy evaluation is an evaluation strategy that delays the evaluation of an expre
 * Lambda expressions are not syntactic sugar to anonymous classes
 * Outside variables need to be effectively final to be used in lambdas, but this makes only the references immutable, not the undelying data structure.
 * Method references are a concise altenative for matching method signatures and lambda definitions.
+
+## Functional Interfaces of the JDK
+
+Big Four Functional Interface Variants:
+
+* Functions
+* Consumers
+* Suppliers
+* Predicates
+
+Function Composition
+
+* Function
+  * compose
+  * andThen
+* Predicate
+  * and
+  * or
+  * negate
+* Consumer
+  * andThen
