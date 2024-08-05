@@ -73,3 +73,24 @@ Function Composition
   * negate
 * Consumer
   * andThen
+
+## Immutability
+
+* String
+* Immutable Collections
+  * Unmodifiable Collections.
+    Static methods like ```Collections.unmodifiableList``` and ```Collections.unmodifiableSet``` only provide "unmodifiable view" , but the underlying Collection is still modifiable
+  * Immutable Collection factory methods
+    * List.of
+    * Set.of
+    * Map.of
+  * Immutable copies (Instead of being a mere view, copyOf creates a new container, holding its own references to the elements )
+    * List.copyOf
+    * Set.copyOf
+    * Map.copyOf
+* Primitive Wrapper
+* Immutable Math
+  * BigInteger
+  * BigDecimal
+* java.time
+* Records
