@@ -94,3 +94,73 @@ Function Composition
   * BigDecimal
 * java.time
 * Records
+
+## Working with Records
+
+### Record Validation and Data Scrubbing
+
+```java
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+public record User( String username, boolean active, LocalDateTime lastLogin) {
+    public User {
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(lastLogin);
+
+        // normalize
+        username = username.toLowerCase();
+    }
+}
+```
+
+### Increasing Immutability
+
+```java
+import java.util.Collections;
+import java.util.List;
+
+public record IncreaseImmutability(List<String> values) {
+    public IncreaseImmutability {
+        values = Collections.unmodifiableList(values);
+    }
+}
+```
+
+### Record as Local Nominal Tuples ( improve expressiveness )
+
+```java
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
+public class Album {
+    record AlbumPerYear(int year, List<String> titles){
+        public AlbumPerYear(Map.Entry<Integer,List<String>> entry){
+            this(entry.getKey(),entry.getValue());
+        }
+        
+        public static Predicate<AlbumPerYear> minimumYear(int year){
+            return albumPerYear -> albumPerYear.year()>=year;
+        }
+        
+        public static Comparator<AlbumPerYear> sortByYear(){
+            return Comparator.comparing(AlbumPerYear::year);
+        }
+        
+    }
+    
+    public List<String> filterAlbums(Map<Integer, List<String>> albums, int minimumYear ){
+        return albums.entrySet()
+                .stream()
+                .map(AlbumPerYear::new)
+                .filter(AlbumPerYear.minimumYear(minimumYear))
+                .sorted(AlbumPerYear.sortByYear())
+                .map(AlbumPerYear::titles)
+                .flatMap(List::stream)
+                .toList();
+    }
+    
+}
+```
