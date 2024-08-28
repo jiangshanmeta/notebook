@@ -164,3 +164,40 @@ public class Album {
     
 }
 ```
+
+## Data Processing with Streams
+
+Stream Features
+
+* Lazy Evaluation
+* (Mostly) stateless and non-interfering ( operations won't affect the underlying data source in any way, nor does the Stream itself store any elements )
+* Optimizations included
+* Less boilerplate
+* Non-reusable
+* Easy parallelization
+
+Intermediate Operation
+
+Terminal Operation
+
+## Working with Streams
+
+### Primitive Streams
+
+* IntStream
+* LongStream
+* DoubleStream
+
+### Iterative Streams
+
+```java
+Stream.iterate("",str->str + "ab").limit(5).forEachOrdered(System.out::println);
+```
+
+Primitive Streams
+
+```java
+IntStream.range(0,5).forEachOrdered(System.out::println);
+
+IntStream.rangeClosed(0,5).forEachOrdered(System.out::println);
+```
