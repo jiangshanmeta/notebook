@@ -201,3 +201,11 @@ IntStream.range(0,5).forEachOrdered(System.out::println);
 
 IntStream.rangeClosed(0,5).forEachOrdered(System.out::println);
 ```
+
+### From Arrays to Streams and Back
+
+```java
+String[] fruits = new String[]{"Apple","Banana","Melon"};
+
+String[] result = Arrays.stream(fruits).filter(fruit->fruit.contains("a")).toArray(String[]::new);
+```
