@@ -126,3 +126,20 @@ export default function useToggle() {
 Compound Component Pattern 把Group和Item类型组件都暴露出来，这样 invert control of rendering , separation of concerns 更加 flexible . 这一模式下 Group和Item组件数据通讯需要利用Context辅助了。
 
 其实两种模式可以都兼容，如果传了items数组按照按照第一种模式处理，基于数组渲染Item，如果没有items数组按照compound component pattern处理，渲染children。
+
+## Framesworks
+
+Benefits of Using a Framework:
+
+* Structure and consistency
+* Best Practices
+* Abstractions
+* Performance optimization
+* Community and ecosystem
+
+Trade-Offs of Using a Framework
+
+* Learning curve
+* Flexibility versus convention
+* Dependency and commitment
+* Abstraction overhead

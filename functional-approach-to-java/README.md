@@ -209,3 +209,5 @@ String[] fruits = new String[]{"Apple","Banana","Melon"};
 
 String[] result = Arrays.stream(fruits).filter(fruit->fruit.contains("a")).toArray(String[]::new);
 ```
+
+## Handing null with Optionals
