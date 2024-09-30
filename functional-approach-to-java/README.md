@@ -211,3 +211,20 @@ String[] result = Arrays.stream(fruits).filter(fruit->fruit.contains("a")).toArr
 ```
 
 ## Handing null with Optionals
+
+## Functional Exception Handling
+
+Not Throwing Exceptions
+
+```java
+Optional<String> safeReadString(Path path){
+  try{
+    var content = Files.readString(path);
+    return Optional.of(content);
+  }catch (IOException e){
+    return Optional.empty();
+  }
+}
+```
+
+use optional instead of exception

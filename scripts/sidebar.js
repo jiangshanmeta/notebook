@@ -86,5 +86,9 @@ module.exports = [
     {
         title: "A Functional Approach to Java",
         path: "/functional-approach-to-java/"
+    },
+    {
+        title: "Micro Frontends in Action",
+        path: "/micro-frontends-in-action/",
     }
 ]
