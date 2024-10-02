@@ -228,3 +228,63 @@ Optional<String> safeReadString(Path path){
 ```
 
 use optional instead of exception
+
+## Lazy Evaluation
+
+```java
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public class Thunk<T> implements Supplier<T> {
+    private Supplier<T> holder;
+
+    private Thunk(Supplier<T> expression) {
+        this.holder = () -> evaluate(expression);
+    }
+
+    public static <T> Thunk<T> of(Supplier<T> supplier) {
+        if (supplier instanceof Thunk<T>) {
+            return (Thunk<T>) supplier;
+        }
+
+        return new Thunk<T>(supplier);
+    }
+
+    public static <T> Thunk<T> of(T value) {
+        return new Thunk<T>(() -> value);
+    }
+    // multi thread
+    private synchronized T evaluate(Supplier<T> supplier) {
+        if (!(this.holder instanceof Holder)) {
+            var evaluated = supplier.get();
+            this.holder = new Holder<>(evaluated);
+        }
+        return this.holder.get();
+    }
+
+    @Override
+    public T get() {
+        return this.holder.get();
+    }
+
+    public <R> Thunk<R> map(Function<T, R> mapper) {
+        return Thunk.of(() -> mapper.apply(get()));
+    }
+
+    public void accept(Consumer<T> consumer) {
+        consumer.accept(get());
+    }
+
+    // cache the result
+    private record Holder<T>(T value) implements Supplier<T> {
+
+        @Override
+        public T get() {
+            return this.value;
+        }
+    }
+
+
+}
+```
