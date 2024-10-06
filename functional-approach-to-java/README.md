@@ -210,6 +210,8 @@ String[] fruits = new String[]{"Apple","Banana","Melon"};
 String[] result = Arrays.stream(fruits).filter(fruit->fruit.contains("a")).toArray(String[]::new);
 ```
 
+## Parallel Data Processing with Streams
+
 ## Handing null with Optionals
 
 ## Functional Exception Handling
@@ -288,3 +290,151 @@ public class Thunk<T> implements Supplier<T> {
 
 }
 ```
+
+## Asynchronous Tasks
+
+CompletableFuture
+
+## Functional Design Patterns
+
+### Factory Pattern
+
+```java
+public interface Shape {
+    int corners();
+    Color color();
+    ShapeType type();
+}
+public enum Color {
+    RED,
+    GREEN,
+    BLUE;
+}
+public record Circle(Color color) implements Shape{
+    @Override
+    public int corners() {
+        return 0;
+    }
+
+    @Override
+    public ShapeType type() {
+        return ShapeType.CIRCLE;
+    }
+}
+
+// factory 和 enum 合并起来
+public enum ShapeType {
+    CIRCLE(Circle::new),
+    TRIANGLE(Triangle::new);
+
+    private final Function<Color,Shape> factory;
+    ShapeType(Function<Color,Shape> factory){
+        this.factory = factory;
+    }
+
+    public Shape newInstance(Color color){
+        return this.factory.apply(color);
+    }
+}
+```
+
+传统的 factory 模式会单独写一个类 ShapeFactory 并提供一个静态方法 作为工厂方法，在这个方法中会根据 传入的 ShapeType 创建实例。但是每次枚举一扩展就要扩展这个 ShapeFacotry方法，可能会造成遗漏。 上面代码把枚举和工厂合二为一，避免这个问题。
+
+high cohesion
+
+### Decorator Pattern
+
+```java
+public interface CoffeeMaker {
+    List<String> getIngredients();
+    Coffee prepare();
+}
+public class BlackCoffeeMaker implements CoffeeMaker {
+    @Override
+    public List<String> getIngredients() {
+        return List.of("Robusta Beans","Water");
+    }
+
+    @Override
+    public Coffee prepare() {
+        return new BlackCoffee();
+    }
+}
+
+```
+
+我们有一个 interface CoffeeMaker , 它可以有很多的具体实现class，例如上面的 BlackCoffeeMaker。我们要对CoffeeMaker装饰
+
+```java
+public abstract class Decorator implements CoffeeMaker {
+    private final CoffeeMaker target;
+
+    protected Decorator(CoffeeMaker target) {
+        this.target = target;
+    }
+
+    @Override
+    public List<String> getIngredients(){
+        return this.target.getIngredients();
+    }
+
+    @Override
+    public Coffee prepare(){
+        return this.target.prepare();
+    }
+}
+public class AddMilkDecorator extends Decorator{
+
+    protected AddMilkDecorator(CoffeeMaker target) {
+        super(target);
+    }
+
+    @Override
+    public List<String> getIngredients() {
+        var ingredients = new ArrayList<>(super.getIngredients());
+        ingredients.add("Milk");
+        return ingredients;
+    }
+
+    @Override
+    public Coffee prepare() {
+        System.out.println("add milk prepare");
+        return super.prepare();
+    }
+}
+```
+
+使用 decorator 要这样
+
+```java
+CoffeeMaker maker = new AddMilkDecorator(new BlackCoffeeMaker());
+```
+
+可以使用多个decorator，上面的语句就会有很多嵌套。
+
+functional的方式：
+
+```java
+public final class Barista {
+    private Barista(){
+
+    }
+
+    public static CoffeeMaker decorate(CoffeeMaker coffeeMaker, Function<CoffeeMaker,CoffeeMaker>... decorators){
+        // 多个decorator一起使用， decorator这里就是 CofferMaker -> CoffeeMaker
+        Function<CoffeeMaker,CoffeeMaker> reducedDecorators = Arrays.stream(decorators).reduce(Function.identity(),Function::andThen );
+
+        return reducedDecorators.apply(coffeeMaker);
+    }
+}
+```
+
+这里 decorator 的创建也可以借助 静态函数
+
+```java
+public static Function<CoffeeMaker,CoffeeMaker> addMilk(){
+    return AddMilkDecorator::new;
+}
+```
+
+函数式写法可以减少显式代码嵌套(一层层装饰器)，避免暴露具体的类型 (AddMilkDecorator 可以设为package level， 通过 静态方法使用 )
