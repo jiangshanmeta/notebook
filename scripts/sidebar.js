@@ -88,6 +88,10 @@ module.exports = [
         path: "/functional-approach-to-java/"
     },
     {
+        title: "Functional Programming in Java",
+        path: "/functional-programming-in-java-bookshelf/"
+    },
+    {
         title: "Micro Frontends in Action",
         path: "/micro-frontends-in-action/",
     }
