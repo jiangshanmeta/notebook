@@ -98,5 +98,9 @@ module.exports = [
     {
         title: "Web Accessibility Cookbook",
         path: "/web-accessibility-cookbook/"
-    }
+    },
+    {
+        title: "Building Micro-Frontends",
+        path: "/building-micro-frontends/",
+    },
 ]
